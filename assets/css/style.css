@@ -950,8 +950,15 @@ body.menu-open{ overflow:hidden; }
 }
 
 /* ---------- HERO (mobile-first) — pinned media, makeup-szerű ---------- */
+/*
+ * Body világos: a fix hero mögött a kép adja a sötétet.
+ * Ha body ink (#050505), a szekciók közti 1px rés „fekete vonalként” látszik.
+ */
 body:has(.hero){
-  background:var(--ink);
+  background:var(--cream-soft);
+}
+main{
+  background:var(--cream-soft);
 }
 .hero{
   position:relative;
@@ -979,10 +986,13 @@ body:has(.hero){
   z-index:0;
   overflow:hidden;
   pointer-events:none;
+  background:var(--ink);
 }
 .hero__media.is-hidden{
   visibility:hidden;
   opacity:0;
+  /* Ne maradjon a compositor rétegen (mobil rés / hairline) */
+  display:none;
 }
 .hero__media picture,
 .hero__img{
@@ -1114,10 +1124,13 @@ section:not(.hero){
   gap:8px;
   margin:0 0 22px;
   padding:6px 14px 6px 8px;
-  width:fit-content;
-  max-width:calc(100% - 8px);
+  width:max-content;
+  max-width:100%;
+  min-width:0;
   align-self:center;
   border-radius:var(--radius-pill);
+  box-sizing:border-box;
+  overflow:hidden;
 }
 .hero-trust__avatars{
   display:flex;
@@ -1147,28 +1160,32 @@ section:not(.hero){
   flex-wrap:nowrap;
   align-items:center;
   gap:6px;
-  flex-shrink:0;
+  min-width:0;
+  flex:1 1 auto;
 }
 .hero-trust__stars{
   display:flex;
   align-items:center;
-  gap:0;
+  gap:1px;
   color:rgba(255,253,250,.92);
   flex-shrink:0;
 }
 .hero-trust__stars svg{
   width:11px;
   height:11px;
+  display:block;
 }
 .hero-trust__text{
   font-family:var(--font-display);
   font-size:12px;
   font-weight:500;
-  letter-spacing:.02em;
+  letter-spacing:.01em;
   color:rgba(255,255,255,.92);
-  line-height:1;
+  line-height:1.2;
   white-space:nowrap;
-  flex-shrink:0;
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 .hero-trust__text strong{
   font-weight:600;
@@ -1206,19 +1223,26 @@ section:not(.hero){
   }
   .hero-trust{
     margin-bottom:20px;
-    padding:6px 12px 6px 8px;
-    gap:6px;
+    padding:7px 12px 7px 8px;
+    gap:7px;
+    max-width:100%;
   }
   .hero-trust__avatar{
-    width:22px;
-    height:22px;
+    width:20px;
+    height:20px;
+    margin-left:-6px;
+    background-size:12px;
   }
   .hero-trust__stars svg{
-    width:10px;
-    height:10px;
+    width:9px;
+    height:9px;
+  }
+  .hero-trust__rating{
+    gap:5px;
   }
   .hero-trust__text{
-    font-size:11px;
+    font-size:10.5px;
+    letter-spacing:0;
   }
   .hero h1{
     font-size:clamp(2.3rem, 9.5vw, 3rem);
@@ -1393,71 +1417,137 @@ section:not(.hero){
 .stats-row{
   padding:clamp(56px, 8vw, 80px) 0;
   background:var(--cream);
+  overflow-x:clip;
+}
+.stats-row__inner{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:clamp(28px, 4vw, 36px);
+  width:100%;
+  max-width:100%;
+  box-sizing:border-box;
+}
+.stats-row__eyebrow{
+  margin:0;
+  font-family:var(--font-display);
+  font-size:var(--type-eyebrow);
+  font-weight:500;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--ink-muted);
+  text-align:center;
+}
+.stats-row__eyebrow [aria-hidden="true"]{
+  letter-spacing:0;
 }
 .stats-row__grid{
   display:grid;
-  grid-template-columns:repeat(3, 1fr);
+  grid-template-columns:repeat(3, minmax(0, 1fr));
   gap:0;
   text-align:center;
-  align-items:center;
+  align-items:start;
+  width:100%;
+  max-width:100%;
+  box-sizing:border-box;
 }
 .stat-item{
   position:relative;
-  padding:0 clamp(20px, 5vw, 48px);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  min-width:0;
+  padding:0 clamp(12px, 3vw, 48px);
+  box-sizing:border-box;
 }
 .stat-item:not(:first-child)::before{
   content:"";
   position:absolute;
   left:0;
-  top:50%;
-  transform:translateY(-50%);
+  top:0.35em;
   width:1px;
-  height:clamp(52px, 9vw, 72px);
+  height:2.6em;
   background:var(--line);
 }
 .stat-item__value{
+  display:flex;
+  align-items:baseline;
+  justify-content:center;
   font-family:var(--font-display);
-  font-size:clamp(2.75rem, 7vw, 3.75rem);
+  font-size:clamp(2.5rem, 6vw, 3.75rem);
   font-weight:300;
   letter-spacing:-.03em;
   line-height:1;
+  font-variant-numeric:tabular-nums;
   color:var(--ink);
-  margin:0 0 14px;
+  margin:0 0 12px;
+  width:100%;
+  min-height:1.05em;
 }
 .stat-item__count{
   font-size:inherit;
   font-weight:inherit;
   letter-spacing:inherit;
   color:inherit;
+  line-height:1;
 }
 .stat-item__label{
   font-family:var(--font-display);
   font-size:11px;
   font-weight:400;
-  line-height:1.3;
-  letter-spacing:.16em;
+  line-height:1.35;
+  letter-spacing:.12em;
   text-transform:uppercase;
   color:var(--why-taupe);
   margin:0;
+  max-width:100%;
+  min-height:2.7em;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  text-wrap:balance;
+  overflow-wrap:anywhere;
+  box-sizing:border-box;
 }
 @media (max-width:640px){
+  .stats-row{
+    padding:40px 0;
+  }
+  .stats-row__inner{
+    gap:20px;
+  }
   .stats-row__grid{
-    grid-template-columns:repeat(3, 1fr);
-    gap:0;
+    grid-template-columns:repeat(3, minmax(0, 1fr));
   }
   .stat-item{
-    padding:0 12px;
+    padding:0 6px;
   }
   .stat-item:not(:first-child)::before{
-    height:clamp(44px, 14vw, 56px);
+    top:0.3em;
+    height:2.2em;
   }
   .stat-item__value{
-    font-size:clamp(2rem, 8.5vw, 2.5rem);
-    margin-bottom:10px;
+    font-size:clamp(1.55rem, 6.8vw, 2rem);
+    margin-bottom:8px;
   }
   .stat-item__label{
-    font-size:9px;
-    letter-spacing:.1em;
+    font-size:8px;
+    letter-spacing:.04em;
+    line-height:1.3;
+    min-height:2.8em;
+    padding:0 2px;
+  }
+}
+@media (max-width:380px){
+  .stat-item{
+    padding:0 4px;
+  }
+  .stat-item__value{
+    font-size:clamp(1.35rem, 6.2vw, 1.7rem);
+  }
+  .stat-item__label{
+    font-size:7.5px;
+    letter-spacing:.02em;
   }
 }
 
@@ -2251,9 +2341,20 @@ section:not(.hero){
 
 /* ---------- FAQ PREVIEW (homepage split) ---------- */
 .faq-preview{
-  padding:clamp(56px, 8vw, 96px) 0 clamp(72px, 10vw, 112px);
+  padding:clamp(56px, 8vw, 96px) 0 clamp(56px, 8vw, 88px);
   background:var(--cream-soft);
-  overflow-x:clip;
+  border:none !important;
+  border-bottom:none !important;
+  box-shadow:none !important;
+  outline:none;
+}
+.faq-preview + .quote-form-section{
+  border:none !important;
+  border-top:none !important;
+  outline:none;
+  /* Folytatódó cream-soft — nincs színváltás / rés a GYIK alatt */
+  background:var(--cream-soft);
+  box-shadow:none !important;
 }
 .faq-preview .faq-list--split .faq-item{
   background:var(--cream);
@@ -2286,49 +2387,65 @@ section:not(.hero){
 }
 
 @media (max-width:900px){
-  /* A: FAQ fotó full-bleed mobilon (Why-szekcióhoz igazítva) */
+  /* Mobilon: szöveg felül, fotó alul — lekerekített keret a cream háttéren (StarClean-szerű) */
+  .faq-split__content{
+    order:1;
+  }
+  .faq-split__aside{
+    order:2;
+  }
   .faq-split__visual{
-    width:100vw;
-    max-width:100vw;
-    margin-left:calc(50% - 50vw);
-    margin-right:calc(50% - 50vw);
-    border-radius:0;
+    width:auto;
+    max-width:100%;
+    margin:0;
+    border-radius:16px;
+    overflow:hidden;
   }
   .faq-split__figure{
-    border-radius:0;
-    aspect-ratio:3 / 2;
-    min-height:220px;
+    border-radius:16px;
+    aspect-ratio:3 / 4;
+    min-height:280px;
   }
-  /* Álló fotó fekvő keretben: a pult legyen a fókusz, ne az elmosott háttér */
   .faq-split__figure img{
-    object-position:center 58%;
+    min-height:0;
+    object-fit:cover;
+    object-position:center 28%;
   }
   .faq-split__card{
-    left:16px;
-    bottom:16px;
-    padding:12px 14px;
-    gap:8px;
-    min-width:min(calc(100% - 32px), 220px);
-    border-radius:var(--radius-sm);
+    left:14px;
+    right:14px;
+    bottom:14px;
+    min-width:0;
+    width:auto;
+    padding:14px 16px;
+    gap:10px;
+    border-radius:12px;
+    background:#fff;
+    border:1px solid rgba(31,25,21,.08);
+    box-shadow:0 8px 24px rgba(31,25,21,.12);
+    backdrop-filter:none;
+    -webkit-backdrop-filter:none;
   }
   .faq-split__contact-row{
-    font-size:12px;
-    gap:8px;
+    font-size:13px;
+    gap:10px;
   }
   .faq-split__contact-icon{
-    width:28px;
-    height:28px;
+    width:36px;
+    height:36px;
+    background:#C4A35A;
+    color:#fff;
   }
   .faq-split__contact-icon svg{
-    width:12px;
-    height:12px;
+    width:15px;
+    height:15px;
   }
 }
 
 @media (max-width:640px){
-  /* Keskeny kijelzőn magasabb keret, hogy a fotó tárgya is elférjen */
   .faq-split__figure{
-    aspect-ratio:4 / 3;
+    aspect-ratio:3 / 4;
+    min-height:300px;
   }
 }
 
@@ -3130,12 +3247,16 @@ textarea:focus-visible{
     grid-template-columns:1fr;
     min-height:auto;
   }
+  .why-split__panel{
+    order:1;
+    padding:48px 24px;
+  }
+  .why-split__media{
+    order:2;
+  }
   .why-split__media img{
     min-height:280px;
     max-height:360px;
-  }
-  .why-split__panel{
-    padding:48px 24px;
   }
 }
 
@@ -3208,8 +3329,11 @@ textarea:focus-visible{
 /* ---------- QUOTE FORM (split) — világos árnyalatok ---------- */
 .quote-form-section{
   padding:clamp(56px, 8vw, 88px) 0 clamp(48px, 7vw, 72px);
-  background:var(--cream);
-  border-top:1px solid var(--line);
+  background:var(--cream-soft);
+  border:none !important;
+  border-top:none !important;
+  box-shadow:none !important;
+  outline:none;
 }
 .quote-form-split{
   display:grid;

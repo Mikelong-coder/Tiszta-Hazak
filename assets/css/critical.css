@@ -220,7 +220,8 @@ p{margin:0;line-height:1.7;}
 .menu-fab__bar--top{top:3px;}
 .menu-fab__bar--bottom{top:9.5px;width:14px;}
 
-body:has(.hero){background:var(--ink,#1F1915);}
+body:has(.hero){background:var(--cream-soft,#F2ECE5);}
+main{background:var(--cream-soft,#F2ECE5);}
 .hero{
   position:relative;z-index:1;
   min-height:100svh;min-height:100dvh;

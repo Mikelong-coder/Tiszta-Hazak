@@ -1,0 +1,3 @@
+# Bemutató változat — a keresők ne indexeljék.
+User-agent: *
+Disallow: /
