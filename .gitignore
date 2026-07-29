@@ -1,0 +1,13 @@
+# Local / editor
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log
+
+# Tooling / temp (never deploy)
+.tools/
+.tmp-*/
+node_modules/
+package-lock.json
+package.json
