@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="hu">
 <head>
 <meta charset="UTF-8">
@@ -23,8 +23,8 @@
   imagesrcset="assets/images/hero-640w.webp 640w, assets/images/hero-960w.webp 960w, assets/images/hero-1280w.webp 1280w, assets/images/hero.webp 1920w"
   imagesizes="100vw">
 <link rel="stylesheet" href="assets/css/critical.css?v=155">
-<link rel="preload" href="assets/css/style.css?v=155" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="assets/css/style.css?v=155"></noscript>
+<link rel="preload" href="assets/css/style.css?v=166" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="assets/css/style.css?v=166"></noscript>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -89,6 +89,7 @@
       <a class="phone" href="tel:+36701234567">+36 70 123 4567</a>
       <a class="btn btn-primary btn-nav-cta surface-glass" href="#quote"><span class="hide-sm">Ingyenes árajánlat</span><span class="show-sm">Árajánlat</span></a>
     </div>
+    <a class="header-phone" href="tel:+36701234567">+36 70 123 4567</a>
   </div>
 </header>
 
@@ -184,17 +185,13 @@
   </div>
 </section>
 
-<section class="intro-band">
+<section class="intro-band" aria-labelledby="intro-band-title">
   <div class="wrap">
     <div class="intro-band__inner">
-      <p class="intro-band__tag" data-reveal="fade" data-reveal-delay="200">★ Kevesebb takarítás, több élet</p>
-      <h2 data-reveal="fade" data-reveal-delay="400">Megbízható takarítás Budapesten és környékén</h2>
-      <p class="intro-band__lead" data-reveal="fade" data-reveal-delay="600">Nincs többé hétvégi takarítás rohanás. A Tiszta Házak Kft. professzionális csapata gondoskodik otthonáról vagy irodájáról — átlátható árakkal, rugalmas időpontokkal.</p>
-      <div class="intro-pills">
-        <a href="szolgaltatasok.html#lakastakaritas" class="btn btn-primary" data-reveal="fade" data-reveal-delay="800">Lakástakarítás</a>
-        <a href="szolgaltatasok.html#irodatakaritas" class="btn btn-primary" data-reveal="fade" data-reveal-delay="1000">Irodatakarítás</a>
-        <a href="szolgaltatasok.html#lepcsohaz" class="btn btn-primary" data-reveal="fade" data-reveal-delay="1200">Lépcsőháztakarítás</a>
-      </div>
+      <p class="intro-band__tag" data-reveal="fade" data-reveal-delay="0"><span aria-hidden="true">★ </span>Vezetői tapasztalat, emberi lépték</p>
+      <h2 id="intro-band-title" class="visually-hidden">Rólunk — röviden</h2>
+      <p class="intro-band__copy" data-reveal="fade" data-reveal-delay="200">Ügyvezetőnk, mielőtt a Tiszta Házak Kft. élére állt, éveken át a multinacionális szektorban felelt nagyvállalatok tisztaságáért. Ma ezt a szakmai precizitást adja tovább saját vállalkozásunkban - csak sokkal közelebbről, személyesen. Csapatunkat közvetlenül irányítja, és minden egyes megrendelést úgy kezel, mintha a saját otthonáról lenne szó: kompromisszumok nélkül.</p>
+      <a href="rolunk.html" class="btn btn-primary intro-band__cta" data-reveal="up" data-reveal-delay="720">Ismerjen meg minket →</a>
     </div>
   </div>
 </section>
@@ -652,6 +649,6 @@
   </div>
 </footer>
 
-<script src="assets/js/main.js?v=124" defer></script>
+<script src="assets/js/main.js?v=166" defer></script>
 </body>
 </html>

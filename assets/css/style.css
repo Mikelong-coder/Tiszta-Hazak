@@ -611,6 +611,11 @@ button.surface-glass:hover{
 }
 .show-sm{ display:none; }
 
+/* Mobil fejléc telefon — csak solid headerben (hero után / aloldalak) */
+.header-phone{
+  display:none;
+}
+
 /* ---------- Mobil menü — 2026: oldalról beúszó drawer, tiszta ikon ---------- */
 .menu-fab{
   display:none;
@@ -898,6 +903,42 @@ body.menu-open{ overflow:hidden; }
 @media (max-width:900px){
   .nav-links{ display:none; }
   .nav-cta{ display:none; }
+  .header-phone{
+    display:inline-flex;
+    align-items:center;
+    position:fixed;
+    top:max(10px, env(safe-area-inset-top));
+    right:max(64px, calc(env(safe-area-inset-right) + 56px));
+    z-index:80;
+    min-height:48px;
+    padding:0 6px;
+    margin:0;
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:13px;
+    letter-spacing:.01em;
+    color:var(--charcoal-30, #2a2420);
+    text-decoration:none;
+    white-space:nowrap;
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transform:translate3d(0, -6px, 0);
+    transition:opacity .28s ease, transform .28s ease, visibility .28s;
+    -webkit-tap-highlight-color:transparent;
+  }
+  body.past-hero .header-phone,
+  body:not(:has(.hero)) .site-header.is-solid .header-phone{
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+    transform:none;
+  }
+  body.menu-open .header-phone{
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+  }
   .site-header{
     background:transparent !important;
     border-bottom-color:transparent !important;
@@ -1353,13 +1394,13 @@ section:not(.hero){
   }
 }
 
-/* ---------- INTRO BAND (StarClean) ---------- */
+/* ---------- INTRO BAND (hero → rólunk bridge) ---------- */
 .intro-band{
-  padding:clamp(56px, 9vw, 96px) 0 clamp(40px, 7vw, 72px);
-  background:var(--cream);
+  padding:clamp(72px, 11vw, 120px) 0 clamp(36px, 5vw, 48px);
+  background:#fff;
 }
 .intro-band__inner{
-  max-width:720px;
+  max-width:680px;
   margin:0 auto;
   text-align:center;
 }
@@ -1370,52 +1411,33 @@ section:not(.hero){
   letter-spacing:.18em;
   text-transform:uppercase;
   color:var(--ink-muted);
-  margin:0 0 18px;
+  margin:0 0 22px;
 }
-.intro-band__inner h2{
-  font-size:var(--type-h2);
-  font-weight:300;
-  letter-spacing:-.03em;
-  line-height:1.15;
-  margin:0 0 18px;
+.intro-band__copy{
+  margin:0 0 clamp(28px, 4vw, 40px);
+  font-size:clamp(1rem, 1.6vw, 1.125rem);
+  line-height:1.75;
   color:var(--ink);
 }
-.intro-band__lead{
-  font-size:var(--type-lead);
-  line-height:1.65;
-  color:var(--ink-soft);
-  margin:0 0 28px;
+.intro-band__cta{
+  border-radius:0;
+  padding:16px 28px;
+  letter-spacing:.14em;
 }
-.intro-pills{
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  gap:10px;
+.intro-band__cta[data-reveal="up"]{
+  --reveal-distance:24px;
+  --reveal-duration:1600ms;
+  --ease-reveal:cubic-bezier(0.22, 0.61, 0.36, 1);
 }
-.intro-pills .btn{
-  padding:12px 22px;
-  font-size:12px;
-}
-.intro-pills .btn-primary:hover{
+.intro-band__cta:hover{
   background:transparent;
   color:var(--ink);
   border-color:var(--ink);
 }
-@media (max-width:640px){
-  /* Egymás alatt egyforma szélesség — ne a szöveg hossza szabja meg */
-  .intro-pills{
-    flex-direction:column;
-    align-items:center;
-  }
-  .intro-pills .btn{
-    width:min(100%, 300px);
-    justify-content:center;
-  }
-}
 
 /* ---------- STATS ROW ---------- */
 .stats-row{
-  padding:clamp(56px, 8vw, 80px) 0;
+  padding:clamp(36px, 5vw, 48px) 0 clamp(56px, 8vw, 80px);
   background:var(--cream);
   overflow-x:clip;
 }
@@ -1772,7 +1794,7 @@ section:not(.hero){
 
 /* ---------- SOCIAL PROOF (homepage slider) ---------- */
 .social-proof{
-  background:var(--cream-soft);
+  background:#fff;
   padding:clamp(64px, 9vw, 96px) 0;
   text-align:center;
 }
@@ -2263,10 +2285,7 @@ section:not(.hero){
   text-decoration:none;
   line-height:1.3;
   transition:color .2s ease;
-}
-.faq-split__contact-row:hover{
-  color:var(--ink-muted);
-  text-decoration:none;
+  -webkit-tap-highlight-color:transparent;
 }
 .faq-split__contact-icon{
   flex-shrink:0;
@@ -2276,8 +2295,25 @@ section:not(.hero){
   align-items:center;
   justify-content:center;
   border-radius:50%;
+  background:#fff;
+  color:var(--ink);
+  border:1px solid var(--line);
+  transition:background .2s ease, color .2s ease, border-color .2s ease;
+}
+/* Érintés: rövid fekete visszajelzés nyomáskor (hover telefonon nem megbízható) */
+.faq-split__contact-row:active .faq-split__contact-icon,
+.faq-split__contact-row:focus-visible .faq-split__contact-icon{
   background:var(--ink);
-  color:var(--cream);
+  color:#fff;
+  border-color:var(--ink);
+}
+/* Egér / trackpad: valódi hover */
+@media (hover: hover) and (pointer: fine){
+  .faq-split__contact-row:hover .faq-split__contact-icon{
+    background:var(--ink);
+    color:#fff;
+    border-color:var(--ink);
+  }
 }
 .faq-split__contact-icon svg{
   width:14px;
@@ -2352,8 +2388,7 @@ section:not(.hero){
   border:none !important;
   border-top:none !important;
   outline:none;
-  /* Folytatódó cream-soft — nincs színváltás / rés a GYIK alatt */
-  background:var(--cream-soft);
+  background:#fff;
   box-shadow:none !important;
 }
 .faq-preview .faq-list--split .faq-item{
@@ -2433,8 +2468,6 @@ section:not(.hero){
   .faq-split__contact-icon{
     width:36px;
     height:36px;
-    background:#C4A35A;
-    color:#fff;
   }
   .faq-split__contact-icon svg{
     width:15px;
@@ -3329,7 +3362,7 @@ textarea:focus-visible{
 /* ---------- QUOTE FORM (split) — világos árnyalatok ---------- */
 .quote-form-section{
   padding:clamp(56px, 8vw, 88px) 0 clamp(48px, 7vw, 72px);
-  background:var(--cream-soft);
+  background:#fff;
   border:none !important;
   border-top:none !important;
   box-shadow:none !important;
@@ -3437,7 +3470,7 @@ textarea:focus-visible{
   opacity:.45;
 }
 .quote-form-card-wrap{
-  background:var(--cream-soft);
+  background:#fff;
   border:1px solid var(--line);
   border-radius:6px;
   padding:clamp(28px, 4vw, 40px);

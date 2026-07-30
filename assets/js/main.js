@@ -14,7 +14,7 @@ function initHeaderAndMenu() {
    */
   if (header && hero && heroMedia) {
     header.classList.remove('is-solid');
-    document.body.classList.remove('header-solid');
+    document.body.classList.remove('header-solid', 'past-hero');
     const heroTrust = hero.querySelector('.hero-trust');
     let coverState = false;
     let mediaHidden = null;
@@ -25,6 +25,7 @@ function initHeaderAndMenu() {
       if (mediaHidden !== pastHero) {
         mediaHidden = pastHero;
         heroMedia.classList.toggle('is-hidden', pastHero);
+        document.body.classList.toggle('past-hero', pastHero);
       }
 
       /* Fejléc háttér csak ütközéskor / hero után — ne a reveal-transform miatt betöltéskor */
@@ -54,7 +55,7 @@ function initHeaderAndMenu() {
     window.setTimeout(updateHeroPin, 900);
   } else if (header && heroSentinel && 'IntersectionObserver' in window) {
     header.classList.remove('is-solid');
-    document.body.classList.remove('header-solid');
+    document.body.classList.remove('header-solid', 'past-hero');
     let isSolid = false;
     const headerObserver = new IntersectionObserver(
       ([entry]) => {
@@ -63,6 +64,7 @@ function initHeaderAndMenu() {
         isSolid = shouldSolid;
         header.classList.toggle('is-solid', shouldSolid);
         document.body.classList.toggle('header-solid', shouldSolid);
+        document.body.classList.toggle('past-hero', shouldSolid);
       },
       { root: null, threshold: 0, rootMargin: '0px' }
     );
@@ -664,6 +666,7 @@ function setupSplitSectionReveals() {
   /* Hero irányok (up / left / down) INTENTEK — soha ne flatteneld fade-re */
   document.querySelectorAll('[data-reveal]').forEach((el) => {
     if (el.closest('.hero') || el.hasAttribute('data-reveal-axis')) return;
+    if (el.classList.contains('intro-band__cta')) return;
     el.setAttribute('data-reveal', 'fade');
   });
 
@@ -865,6 +868,81 @@ function isReadyToReveal(el) {
   return rect.top < vh * 0.72 && rect.bottom > vh * 0.18;
 }
 
+/**
+ * Intro CTA: asztalin jól csúszik; mobilnál a szöveg IO-ja túl korai,
+ * a saját -24%-os küszöb pedig túl késői / beragadhat.
+ * Középút: saját, lazább observer + rövid késleltetés + failsafe.
+ */
+function initIntroBandCtaReveal(prefersReduced) {
+  const cta = document.querySelector('.intro-band__cta');
+  if (!cta) return;
+
+  if (prefersReduced) {
+    cta.classList.add('reveal-in');
+    return;
+  }
+
+  if (!('IntersectionObserver' in window)) {
+    playReveal(cta);
+    return;
+  }
+
+  let done = false;
+  const finish = () => {
+    if (done || cta.classList.contains('reveal-in')) return;
+    done = true;
+    playReveal(cta);
+    observer.unobserve(cta);
+    bandObserver.unobserve(band);
+  };
+
+  const band = cta.closest('.intro-band') || cta;
+  let bandVisibleSince = 0;
+  let failsafeTimer = 0;
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        /* Lazább, mint a globális 0.88 — mobilnál a gomb gyakran lentebb ül */
+        if (entry.boundingClientRect.top > window.innerHeight * 0.94) return;
+        finish();
+      });
+    },
+    { threshold: [0, 0.1, 0.25], rootMargin: '0px 0px -10% 0px' }
+  );
+
+  const bandObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) {
+          bandVisibleSince = 0;
+          window.clearTimeout(failsafeTimer);
+          failsafeTimer = 0;
+          return;
+        }
+        if (!bandVisibleSince) bandVisibleSince = Date.now();
+        /* Ha a szekció már ~1.4s-e látszik, a gomb ne maradjon rejtve */
+        window.clearTimeout(failsafeTimer);
+        failsafeTimer = window.setTimeout(() => {
+          if (!cta.classList.contains('reveal-in')) finish();
+        }, 1400);
+      });
+    },
+    { threshold: [0.35, 0.5], rootMargin: '0px 0px -6% 0px' }
+  );
+
+  const ctaRect = cta.getBoundingClientRect();
+  const vh = window.innerHeight || document.documentElement.clientHeight;
+  if (ctaRect.top < vh * 0.9 && ctaRect.bottom > vh * 0.12) {
+    finish();
+    return;
+  }
+
+  observer.observe(cta);
+  bandObserver.observe(band);
+}
+
 function initReveal() {
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const skipClosest = (el) =>
@@ -879,8 +957,10 @@ function initReveal() {
     el.closest('.page-hero');
 
   const scrollReveals = [...document.querySelectorAll('[data-reveal]')].filter(
-    (el) => !skipClosest(el)
+    (el) => !skipClosest(el) && !el.classList.contains('intro-band__cta')
   );
+
+  initIntroBandCtaReveal(prefersReduced);
 
   if (!scrollReveals.length) return;
 
