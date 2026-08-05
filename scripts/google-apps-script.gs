@@ -1,9 +1,27 @@
 /**
- * Tiszta Házak — űrlapfogadó Google Apps Script.
+ * Tiszta Házak — űrlapfogadó Google Apps Script
+ * (makeup-artist-demo motor mintájára, saját táblázathoz)
  *
- * Ez a fájl NEM a weboldal része: a tartalmát a Google Táblázat
- * Apps Script szerkesztőjébe kell beilleszteni. Telepítési lépések:
- * README.md → „Űrlapok bekötése Google Táblázatba”.
+ * === MIT KELL LÉTREHOZNI (tisztahazakbp@gmail.com alatt) ===
+ *
+ * 1) Új Google Táblázat neve pl.: „Tiszta Házak — Ürlapok”
+ * 2) Két munkalap (fül), pontos névvel:
+ *
+ *    A) „Ajánlatkérés”  — oszlopok az 1. sorban:
+ *       Beérkezett | Név | E-mail | Telefon | Szolgáltatás | Megjegyzés
+ *
+ *    B) „Kapcsolat”  — oszlopok az 1. sorban:
+ *       Beérkezett | Név | E-mail | Telefon | Üzenet
+ *
+ *    (Ha üres a lap, a szkript magától is létrehozza a fejlécet.)
+ *
+ * 3) Táblázat → Bővítmények → Apps Script → másold be ezt a fájlt.
+ * 4) NOTIFY_EMAIL = ahova az értesítő megy (alább).
+ * 5) Telepítés → Új telepítés → Webalkalmazás
+ *    - Futtatás: te (tisztahazakbp)
+ *    - Hozzáférés: Bárki
+ * 6) A kapott …/exec URL-t írd be az assets/js/main.js-be:
+ *    QUOTE_FORM_ENDPOINT és CONTACT_FORM_ENDPOINT (ugyanaz az URL mindkettőnél).
  *
  * A weboldal JSON-t küld (text/plain), hogy ne kelljen CORS preflight.
  */
@@ -11,8 +29,8 @@
 /** Ide érkezik értesítő e-mail minden új kitöltésről. Üresen: nincs e-mail. */
 const NOTIFY_EMAIL = 'tisztahazakbp@gmail.com';
 
-/** Üresen hagyva a szkripthez tartozó táblázatba ír (Bővítmények → Apps Script). */
-const SPREADSHEET_ID = '';
+/** Üresen hagyva a szkripthez kötött táblázatba ír (Bővítmények → Apps Script). */
+const SPREADSHEET_ID = '1xt5vdwRU_8HlwJeqGbs3WPD7B4ZbMmX7y7PdaqZ5sDU';
 
 const TIMEZONE = 'Europe/Budapest';
 
@@ -54,7 +72,6 @@ function doPost(e) {
 
     return jsonOut({ ok: true });
   } catch (err) {
-    /* A hiba a szkript naplójában marad (Végrehajtások fül), hogy visszakövethető legyen. */
     console.error(err);
     return jsonOut({ ok: false, error: String(err) });
   }
@@ -71,20 +88,40 @@ function readPayload(e) {
     try {
       return JSON.parse(raw);
     } catch (_) {
-      /* Nem JSON: essünk vissza a szokásos form-encoded paraméterekre. */
+      /* Nem JSON: form-urlencoded (makeup-szerű) */
+      if (e && e.parameter && Object.keys(e.parameter).length) {
+        return e.parameter;
+      }
+      const data = {};
+      String(raw)
+        .split('&')
+        .forEach((pair) => {
+          const i = pair.indexOf('=');
+          if (i < 0) return;
+          const key = decodeURIComponent(pair.slice(0, i).replace(/\+/g, ' '));
+          const val = decodeURIComponent(pair.slice(i + 1).replace(/\+/g, ' '));
+          data[key] = val;
+        });
+      if (Object.keys(data).length) return data;
     }
   }
   return (e && e.parameter) || {};
 }
 
+function cellValue(key, data) {
+  const raw = String(data[key] || '');
+  /* Telefon ne legyen tudományos jelölés a Sheetben */
+  if (key === 'phone' && raw) return "'" + raw;
+  return raw;
+}
+
 function appendRow(config, data) {
-  /* Egyszerre több kitöltés ne írjon ugyanabba a sorba. */
   const lock = LockService.getScriptLock();
   lock.waitLock(20000);
   try {
     const sheet = getSheet(config);
     const stamp = Utilities.formatDate(new Date(), TIMEZONE, 'yyyy.MM.dd HH:mm:ss');
-    const row = [stamp].concat(config.fields.map((key) => String(data[key] || '')));
+    const row = [stamp].concat(config.fields.map((key) => cellValue(key, data)));
     sheet.appendRow(row);
   } finally {
     lock.releaseLock();
@@ -117,7 +154,6 @@ function notify(config, data) {
     subject: config.subject,
     body: `${lines.join('\n')}\n\nA teljes lista a Google Táblázatban található.`,
   };
-  /* Így a levélre válaszolva egyenesen az érdeklődő címére megy a válasz. */
   const replyTo = String(data.email || '').trim();
   if (replyTo) options.replyTo = replyTo;
 

@@ -17,7 +17,7 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/montserrat-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/montserrat-latin-ext-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/style.css?v=166">
+<link rel="stylesheet" href="assets/css/style.css?v=169">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -147,6 +147,11 @@
 
     <div class="contact-flow__form-wrap" data-reveal="fade" data-reveal-delay="600">
       <form id="uzenet" class="quote-form" data-contact-form novalidate>
+        <input type="hidden" name="formType" value="kapcsolat">
+        <div class="form-trap" aria-hidden="true">
+          <label for="contact-trap">Ezt a mezőt hagyja üresen</label>
+          <input type="text" id="contact-trap" name="_trap" tabindex="-1" autocomplete="off">
+        </div>
         <div class="quote-form__field">
           <label for="contact-name">Név</label>
           <input type="text" id="contact-name" name="name" autocomplete="name" required placeholder="Teljes neve">
@@ -170,10 +175,6 @@
     </div>
   </div>
 </section>
-
-<figure class="contact-mood" data-reveal="fade" data-reveal-delay="200" aria-label="Hangulat">
-  <img src="assets/images/about-640w.webp" srcset="assets/images/about-640w.webp 640w, assets/images/about-960w.webp 960w, assets/images/about.webp 1024w" sizes="100vw" alt="Tiszta, rendezett otthon — a Tiszta Házak munkájának hangulata" width="1920" height="900" loading="lazy" decoding="async">
-</figure>
 
 <section id="elerhetoseg" class="contact-block-section" aria-labelledby="contact-block-title">
   <div class="wrap contact-block">
@@ -283,6 +284,6 @@
   </div>
 </footer>
 
-<script src="assets/js/main.js?v=166" defer></script>
+<script src="assets/js/main.js?v=168" defer></script>
 </body>
 </html>

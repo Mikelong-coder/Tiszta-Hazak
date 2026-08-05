@@ -207,6 +207,7 @@ function initCritical() {
   initWhySplitReveal();
   initReveal();
   initSvcHashFocus();
+  initQuoteHashNav();
 }
 
 function initDeferred() {
@@ -418,9 +419,13 @@ function setupStatCounters() {
 /* Ürlap végpont — Google Apps Script webapp URL (doPost).
    Példa: 'https://script.google.com/macros/s/…/exec'
    Üresen: mailto fallback + visszajelzés. */
-const QUOTE_FORM_ENDPOINT = '';
-const CONTACT_FORM_ENDPOINT = '';
-const FORM_MAIL = 'info@tisztahazak.hu';
+/* Ugyanaz a Webapp URL mindkettőhöz (Apps Script deploy …/exec). Üresen: mailto. */
+const QUOTE_FORM_ENDPOINT =
+  'https://script.google.com/macros/s/AKfycbyachlB1D8ALMP85R5QbmDcai8pmpo7xNumsvPqu8yS5zAXVB1GveLcgbR4xQzbGGMa/exec';
+const CONTACT_FORM_ENDPOINT =
+  'https://script.google.com/macros/s/AKfycbyachlB1D8ALMP85R5QbmDcai8pmpo7xNumsvPqu8yS5zAXVB1GveLcgbR4xQzbGGMa/exec';
+/* Mailto fallback + hibák — Tiszta Házak Gmail */
+const FORM_MAIL = 'tisztahazakbp@gmail.com';
 
 function getFormStatusEl(form) {
   let el = form.querySelector('[data-form-status]');
@@ -1080,5 +1085,83 @@ function initSvcHashFocus() {
   window.addEventListener('hashchange', () => {
     if (getHashCard()) focusCard(true);
     else clearFocus(false);
+  });
+}
+
+/**
+ * #quote ugrás: a content-visibility:auto a közbenső szekciókat ~480px-re becsüli,
+ * ezért a böngésző native hash-scrollje a FAQ-nál áll meg. Előbb kinyitjuk a layoutot,
+ * megjelenítjük a form szekciót, majd pontosan a fejléc alá görgetünk.
+ */
+function initQuoteHashNav() {
+  const section = document.getElementById('quote');
+  if (!section) return;
+
+  const headerOffset = () => {
+    const header = document.querySelector('.site-header');
+    return (header?.offsetHeight || 72) + 12;
+  };
+
+  const unlockSectionHeights = () => {
+    document.querySelectorAll('main > section:not(.hero)').forEach((el) => {
+      el.style.contentVisibility = 'visible';
+    });
+  };
+
+  const revealQuote = () => {
+    section.querySelectorAll('[data-reveal]').forEach((el) => {
+      el.style.setProperty('--reveal-delay', '0ms');
+      el.classList.add('reveal-in');
+    });
+  };
+
+  const scrollToQuote = (behavior) => {
+    unlockSectionHeights();
+    revealQuote();
+
+    const run = () => {
+      const top = Math.max(
+        0,
+        section.getBoundingClientRect().top + window.scrollY - headerOffset()
+      );
+      window.scrollTo({ top, behavior });
+    };
+
+    requestAnimationFrame(() => requestAnimationFrame(run));
+  };
+
+  const isSamePageQuoteLink = (anchor) => {
+    const href = anchor.getAttribute('href');
+    if (!href) return false;
+    if (href === '#quote') return true;
+    if (!href.includes('#quote')) return false;
+    try {
+      const url = new URL(href, location.href);
+      return url.hash === '#quote' && url.pathname === location.pathname;
+    } catch {
+      return false;
+    }
+  };
+
+  document.addEventListener('click', (e) => {
+    const anchor = e.target.closest('a[href="#quote"], a[href*="#quote"]');
+    if (!anchor || e.defaultPrevented || e.button !== 0) return;
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    if (!isSamePageQuoteLink(anchor)) return;
+
+    e.preventDefault();
+    if (location.hash !== '#quote') {
+      history.pushState(null, '', '#quote');
+    }
+    scrollToQuote('smooth');
+  });
+
+  if (location.hash === '#quote') {
+    scrollToQuote('auto');
+    window.setTimeout(() => scrollToQuote('auto'), 120);
+  }
+
+  window.addEventListener('hashchange', () => {
+    if (location.hash === '#quote') scrollToQuote('smooth');
   });
 }

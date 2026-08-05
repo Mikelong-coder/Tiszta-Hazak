@@ -23,8 +23,8 @@
   imagesrcset="assets/images/hero-640w.webp 640w, assets/images/hero-960w.webp 960w, assets/images/hero-1280w.webp 1280w, assets/images/hero.webp 1920w"
   imagesizes="100vw">
 <link rel="stylesheet" href="assets/css/critical.css?v=155">
-<link rel="preload" href="assets/css/style.css?v=166" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="assets/css/style.css?v=166"></noscript>
+<link rel="preload" href="assets/css/style.css?v=169" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="assets/css/style.css?v=169"></noscript>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -512,6 +512,11 @@
 
     <div class="quote-form-card-wrap" data-reveal="fade" data-reveal-delay="400">
       <form class="quote-form" data-quote-form novalidate>
+        <input type="hidden" name="formType" value="ajanlatkeres">
+        <div class="form-trap" aria-hidden="true">
+          <label for="quote-trap-home">Ezt a mezőt hagyja üresen</label>
+          <input type="text" id="quote-trap-home" name="_trap" tabindex="-1" autocomplete="off">
+        </div>
         <div class="quote-form__field">
           <label for="quote-name-home">Név</label>
           <input type="text" id="quote-name-home" name="name" autocomplete="name" required placeholder="Teljes neve">
@@ -649,6 +654,6 @@
   </div>
 </footer>
 
-<script src="assets/js/main.js?v=166" defer></script>
+<script src="assets/js/main.js?v=169" defer></script>
 </body>
 </html>
