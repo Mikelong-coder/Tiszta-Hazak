@@ -237,6 +237,12 @@ function setupSocialProof() {
   const slides = track ? [...track.querySelectorAll('.social-proof__slide')] : [];
   if (!slides.length || !track) return;
 
+  const section = root.closest('.social-proof');
+  if (slides.length < 2) {
+    section?.classList.add('social-proof--single');
+    return;
+  }
+
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const intervalMs = 6000;
   let current = 0;

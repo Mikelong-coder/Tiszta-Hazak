@@ -14,7 +14,7 @@ function initHeaderAndMenu() {
    */
   if (header && hero && heroMedia) {
     header.classList.remove('is-solid');
-    document.body.classList.remove('header-solid');
+    document.body.classList.remove('header-solid', 'past-hero');
     const heroTrust = hero.querySelector('.hero-trust');
     let coverState = false;
     let mediaHidden = null;
@@ -25,6 +25,7 @@ function initHeaderAndMenu() {
       if (mediaHidden !== pastHero) {
         mediaHidden = pastHero;
         heroMedia.classList.toggle('is-hidden', pastHero);
+        document.body.classList.toggle('past-hero', pastHero);
       }
 
       /* Fejléc háttér csak ütközéskor / hero után — ne a reveal-transform miatt betöltéskor */
@@ -54,7 +55,7 @@ function initHeaderAndMenu() {
     window.setTimeout(updateHeroPin, 900);
   } else if (header && heroSentinel && 'IntersectionObserver' in window) {
     header.classList.remove('is-solid');
-    document.body.classList.remove('header-solid');
+    document.body.classList.remove('header-solid', 'past-hero');
     let isSolid = false;
     const headerObserver = new IntersectionObserver(
       ([entry]) => {
@@ -63,6 +64,7 @@ function initHeaderAndMenu() {
         isSolid = shouldSolid;
         header.classList.toggle('is-solid', shouldSolid);
         document.body.classList.toggle('header-solid', shouldSolid);
+        document.body.classList.toggle('past-hero', shouldSolid);
       },
       { root: null, threshold: 0, rootMargin: '0px' }
     );
@@ -205,6 +207,7 @@ function initCritical() {
   initWhySplitReveal();
   initReveal();
   initSvcHashFocus();
+  initQuoteHashNav();
 }
 
 function initDeferred() {
@@ -233,6 +236,12 @@ function setupSocialProof() {
   const track = root.querySelector('.social-proof__track');
   const slides = track ? [...track.querySelectorAll('.social-proof__slide')] : [];
   if (!slides.length || !track) return;
+
+  const section = root.closest('.social-proof');
+  if (slides.length < 2) {
+    section?.classList.add('social-proof--single');
+    return;
+  }
 
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const intervalMs = 6000;
@@ -413,20 +422,23 @@ function setupStatCounters() {
   });
 }
 
-/* Űrlap végpont — a Google Apps Script webapp URL-je (doPost).
+/* Ürlap végpont — Google Apps Script webapp URL (doPost).
    Példa: 'https://script.google.com/macros/s/…/exec'
-   Beállítás: README.md → „Űrlapok bekötése Google Táblázatba”.
-   Üresen hagyva a mailto tartalék fut, ami mobilon gyakran nem működik. */
-const QUOTE_FORM_ENDPOINT = '';
-const CONTACT_FORM_ENDPOINT = '';
-const FORM_MAIL = 'info@tisztahazak.hu';
+   Üresen: mailto fallback + visszajelzés. */
+/* Ugyanaz a Webapp URL mindkettőhöz (Apps Script deploy …/exec). Üresen: mailto. */
+const QUOTE_FORM_ENDPOINT =
+  'https://script.google.com/macros/s/AKfycbyachlB1D8ALMP85R5QbmDcai8pmpo7xNumsvPqu8yS5zAXVB1GveLcgbR4xQzbGGMa/exec';
+const CONTACT_FORM_ENDPOINT =
+  'https://script.google.com/macros/s/AKfycbyachlB1D8ALMP85R5QbmDcai8pmpo7xNumsvPqu8yS5zAXVB1GveLcgbR4xQzbGGMa/exec';
+/* Mailto fallback + hibák — Tiszta Házak Gmail */
+const FORM_MAIL = 'tisztahazakbp@gmail.com';
 
 function getFormStatusEl(form) {
   let el = form.querySelector('[data-form-status]');
   if (el) return el;
   el = document.createElement('p');
   el.className = 'quote-form__status';
-  el.setAttribute('data-form-status', '');
+  el.setAttribute('data-form-status');
   el.setAttribute('role', 'status');
   el.setAttribute('aria-live', 'polite');
   const submit = form.querySelector('[type="submit"]');
@@ -665,6 +677,7 @@ function setupSplitSectionReveals() {
   /* Hero irányok (up / left / down) INTENTEK — soha ne flatteneld fade-re */
   document.querySelectorAll('[data-reveal]').forEach((el) => {
     if (el.closest('.hero') || el.hasAttribute('data-reveal-axis')) return;
+    if (el.classList.contains('intro-band__cta')) return;
     el.setAttribute('data-reveal', 'fade');
   });
 
@@ -866,6 +879,81 @@ function isReadyToReveal(el) {
   return rect.top < vh * 0.72 && rect.bottom > vh * 0.18;
 }
 
+/**
+ * Intro CTA: asztalin jól csúszik; mobilnál a szöveg IO-ja túl korai,
+ * a saját -24%-os küszöb pedig túl késői / beragadhat.
+ * Középút: saját, lazább observer + rövid késleltetés + failsafe.
+ */
+function initIntroBandCtaReveal(prefersReduced) {
+  const cta = document.querySelector('.intro-band__cta');
+  if (!cta) return;
+
+  if (prefersReduced) {
+    cta.classList.add('reveal-in');
+    return;
+  }
+
+  if (!('IntersectionObserver' in window)) {
+    playReveal(cta);
+    return;
+  }
+
+  let done = false;
+  const finish = () => {
+    if (done || cta.classList.contains('reveal-in')) return;
+    done = true;
+    playReveal(cta);
+    observer.unobserve(cta);
+    bandObserver.unobserve(band);
+  };
+
+  const band = cta.closest('.intro-band') || cta;
+  let bandVisibleSince = 0;
+  let failsafeTimer = 0;
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        /* Lazább, mint a globális 0.88 — mobilnál a gomb gyakran lentebb ül */
+        if (entry.boundingClientRect.top > window.innerHeight * 0.94) return;
+        finish();
+      });
+    },
+    { threshold: [0, 0.1, 0.25], rootMargin: '0px 0px -10% 0px' }
+  );
+
+  const bandObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) {
+          bandVisibleSince = 0;
+          window.clearTimeout(failsafeTimer);
+          failsafeTimer = 0;
+          return;
+        }
+        if (!bandVisibleSince) bandVisibleSince = Date.now();
+        /* Ha a szekció már ~1.4s-e látszik, a gomb ne maradjon rejtve */
+        window.clearTimeout(failsafeTimer);
+        failsafeTimer = window.setTimeout(() => {
+          if (!cta.classList.contains('reveal-in')) finish();
+        }, 1400);
+      });
+    },
+    { threshold: [0.35, 0.5], rootMargin: '0px 0px -6% 0px' }
+  );
+
+  const ctaRect = cta.getBoundingClientRect();
+  const vh = window.innerHeight || document.documentElement.clientHeight;
+  if (ctaRect.top < vh * 0.9 && ctaRect.bottom > vh * 0.12) {
+    finish();
+    return;
+  }
+
+  observer.observe(cta);
+  bandObserver.observe(band);
+}
+
 function initReveal() {
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const skipClosest = (el) =>
@@ -880,8 +968,10 @@ function initReveal() {
     el.closest('.page-hero');
 
   const scrollReveals = [...document.querySelectorAll('[data-reveal]')].filter(
-    (el) => !skipClosest(el)
+    (el) => !skipClosest(el) && !el.classList.contains('intro-band__cta')
   );
+
+  initIntroBandCtaReveal(prefersReduced);
 
   if (!scrollReveals.length) return;
 
@@ -1001,5 +1091,83 @@ function initSvcHashFocus() {
   window.addEventListener('hashchange', () => {
     if (getHashCard()) focusCard(true);
     else clearFocus(false);
+  });
+}
+
+/**
+ * #quote ugrás: a content-visibility:auto a közbenső szekciókat ~480px-re becsüli,
+ * ezért a böngésző native hash-scrollje a FAQ-nál áll meg. Előbb kinyitjuk a layoutot,
+ * megjelenítjük a form szekciót, majd pontosan a fejléc alá görgetünk.
+ */
+function initQuoteHashNav() {
+  const section = document.getElementById('quote');
+  if (!section) return;
+
+  const headerOffset = () => {
+    const header = document.querySelector('.site-header');
+    return (header?.offsetHeight || 72) + 12;
+  };
+
+  const unlockSectionHeights = () => {
+    document.querySelectorAll('main > section:not(.hero)').forEach((el) => {
+      el.style.contentVisibility = 'visible';
+    });
+  };
+
+  const revealQuote = () => {
+    section.querySelectorAll('[data-reveal]').forEach((el) => {
+      el.style.setProperty('--reveal-delay', '0ms');
+      el.classList.add('reveal-in');
+    });
+  };
+
+  const scrollToQuote = (behavior) => {
+    unlockSectionHeights();
+    revealQuote();
+
+    const run = () => {
+      const top = Math.max(
+        0,
+        section.getBoundingClientRect().top + window.scrollY - headerOffset()
+      );
+      window.scrollTo({ top, behavior });
+    };
+
+    requestAnimationFrame(() => requestAnimationFrame(run));
+  };
+
+  const isSamePageQuoteLink = (anchor) => {
+    const href = anchor.getAttribute('href');
+    if (!href) return false;
+    if (href === '#quote') return true;
+    if (!href.includes('#quote')) return false;
+    try {
+      const url = new URL(href, location.href);
+      return url.hash === '#quote' && url.pathname === location.pathname;
+    } catch {
+      return false;
+    }
+  };
+
+  document.addEventListener('click', (e) => {
+    const anchor = e.target.closest('a[href="#quote"], a[href*="#quote"]');
+    if (!anchor || e.defaultPrevented || e.button !== 0) return;
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    if (!isSamePageQuoteLink(anchor)) return;
+
+    e.preventDefault();
+    if (location.hash !== '#quote') {
+      history.pushState(null, '', '#quote');
+    }
+    scrollToQuote('smooth');
+  });
+
+  if (location.hash === '#quote') {
+    scrollToQuote('auto');
+    window.setTimeout(() => scrollToQuote('auto'), 120);
+  }
+
+  window.addEventListener('hashchange', () => {
+    if (location.hash === '#quote') scrollToQuote('smooth');
   });
 }
