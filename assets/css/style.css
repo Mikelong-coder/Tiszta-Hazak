@@ -353,64 +353,34 @@ button.surface-glass:hover{
   display:flex;
   flex-direction:row;
   align-items:center;
-  gap:12px;
+  gap:0;
   color:#fff;
-  transition:color .25s ease;
+  transition:opacity .25s ease;
+  min-width:0;
 }
+.logo-link:hover{ opacity:.92; }
 .site-header.is-solid .logo-link{ color:var(--charcoal-30-deep); }
 .logo-link--footer{
   flex-direction:row;
   align-items:center;
-  gap:12px;
   color:var(--ink);
   margin-bottom:0;
 }
-.logo-mark{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-shrink:0;
-  width:46px;
-  height:46px;
-  border-radius:10px;
-  background:rgba(255,255,255,.12);
-  border:1px solid rgba(255,255,255,.35);
-  transition:background .25s ease, border-color .25s ease;
+.logo-img{
+  display:block;
+  height:52px;
+  width:auto;
+  max-width:min(168px, 42vw);
+  object-fit:contain;
 }
-.site-header.is-solid .logo-mark{
-  background:var(--silver-60);
-  border-color:var(--silver-border);
+.logo-img--footer{
+  height:64px;
+  max-width:180px;
 }
-.logo-mark--footer{
-  width:40px;
-  height:40px;
-  border-radius:8px;
-  background:var(--cream-soft);
-  border-color:var(--line);
+/* Hero átlátszó fejléc: enyhe árnyék, hogy a barna logo olvasható legyen */
+body:has(.hero) .site-header:not(.is-solid) .logo-img{
+  filter:drop-shadow(0 1px 2px rgba(0,0,0,.65)) drop-shadow(0 0 10px rgba(0,0,0,.25));
 }
-.logo-house{ display:block; }
-.logo-text{
-  display:flex;
-  flex-direction:column;
-  line-height:1.1;
-  font-family:var(--font-display);
-  align-items:flex-start;
-}
-.logo-text-main{
-  font-weight:600;
-  font-size:1rem;
-  letter-spacing:.02em;
-  line-height:1.15;
-}
-.logo-text-sub{
-  font-size:.68rem;
-  font-weight:600;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-  opacity:.85;
-}
-.logo-text--footer .logo-text-main{ font-size:.95rem; }
-.logo-text--footer .logo-text-sub{ opacity:.9; }
 .nav-links{
   display:flex; gap:30px;
   align-items:center;
@@ -964,37 +934,19 @@ body.menu-open{ overflow:hidden; }
     position:relative;
     z-index:1;
   }
-  .logo-text{ display:none; }
-  .logo-link{ gap:0; min-width:0; }
-  .logo-mark{
-    width:auto;
-    height:auto;
-    padding:0;
-    background:transparent !important;
-    border:none !important;
-    border-radius:0;
-    box-shadow:none;
+  .logo-img{
+    height:44px;
+    max-width:min(148px, 46vw);
   }
-  .logo-house{
-    width:36px;
-    height:36px;
-    filter:drop-shadow(0 0 2px rgba(0,0,0,.85)) drop-shadow(0 1px 4px rgba(0,0,0,.55));
+  .logo-img--footer{
+    height:56px;
   }
-  .site-header.is-solid .logo-mark{
-    background:transparent !important;
-    border:none !important;
-  }
-  .site-header.is-solid .logo-house{ filter:none; }
   .nav{
     width:100%;
     max-width:none;
     margin:0;
     min-height:var(--header-h);
     padding:8px max(12px, env(safe-area-inset-right)) 8px max(12px, env(safe-area-inset-left));
-  }
-  .logo-text-main{
-    font-size:.88rem;
-    white-space:nowrap;
   }
 }
 
@@ -5385,6 +5337,6 @@ footer .flinks a:hover{ color:var(--ink); }
 
 @media (max-width:480px){
   .nav{ padding:8px 12px; }
-  .logo-text-main{ font-size:.9rem; }
+  .logo-img{ height:40px; max-width:min(132px, 44vw); }
   .btn-nav-cta{ display:none; }
 }
