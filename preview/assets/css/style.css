@@ -1012,13 +1012,15 @@ main{
 .hero{
   position:relative;
   z-index:1;
+  /* --app-height = látható viewport (JS visualViewport) — F12-szerű középre igazítás */
+  min-height:100vh;
   min-height:100svh;
-  min-height:100dvh;
+  min-height:var(--app-height, 100svh);
   display:flex;
   flex-direction:column;
-  justify-content:flex-start;
+  justify-content:center;
   align-items:stretch;
-  padding:0 0 max(24px, env(safe-area-inset-bottom));
+  padding:var(--header-h) 0 max(24px, env(safe-area-inset-bottom));
   background:transparent;
   color:#fff;
   overflow-x:clip;
@@ -1030,8 +1032,8 @@ main{
   position:fixed;
   inset:0;
   width:100%;
-  height:100svh;
-  height:100dvh;
+  height:100%;
+  height:var(--app-height, 100%);
   z-index:0;
   overflow:hidden;
   pointer-events:none;
@@ -1056,8 +1058,8 @@ main{
 }
 @media (max-width:900px){
   .hero__img{
-    /* Telefon: jobbra + feljebb — arc/felsőtest a viewportban, ne csak a láb */
-    object-position:86% 22%;
+    /* Telefon: arc/felsőtest — közel az F12 device frame cropjához */
+    object-position:82% 20%;
   }
 }
 .hero-overlay{
@@ -1086,7 +1088,7 @@ main > section:not(.hero){
   width:100%;
   max-width:100%;
   margin:0;
-  padding:calc(var(--header-h) + 48px + 1cm) 16px 0;
+  padding:0 16px;
   box-sizing:border-box;
 }
 .hero-inner{
@@ -1270,15 +1272,19 @@ section:not(.hero){
 }
 @media (max-width:900px){
   .hero{ --reveal-distance:36px; }
-}
-@media (max-width:900px){
+  .hero{
+    /* Valódi telefon: blokk optikai középpont alatt (lejjebb) */
+    justify-content:center;
+    padding:calc(var(--header-h) + 6vh) 0 max(28px, env(safe-area-inset-bottom), 7vh);
+  }
   .hero .wrap{
-    padding-top:calc(var(--header-h) + 40px + 1cm);
+    padding:0 16px;
+    transform:translateY(3.5vh);
   }
   .hero-trust{
-    margin-bottom:20px;
-    padding:7px 12px 7px 8px;
-    gap:7px;
+    margin-bottom:22px;
+    padding:8px 14px 8px 10px;
+    gap:8px;
     max-width:100%;
   }
   .hero-trust__avatar{
@@ -1288,53 +1294,59 @@ section:not(.hero){
     background-size:12px;
   }
   .hero-trust__stars svg{
-    width:9px;
-    height:9px;
+    width:11px;
+    height:11px;
   }
   .hero-trust__rating{
-    gap:5px;
+    gap:6px;
   }
   .hero-trust__text{
-    font-size:10.5px;
+    font-size:12px;
     letter-spacing:0;
   }
   .hero h1{
-    font-size:clamp(2.3rem, 9.5vw, 3rem);
-    margin-bottom:14px;
+    font-size:clamp(2.55rem, 10.8vw, 3.25rem);
+    margin-bottom:16px;
   }
   .hero p.hero-lead{
-    font-size:0.9375rem;
-    line-height:1.55;
-    margin:0 auto 40px;
+    font-size:1.05rem;
+    line-height:1.58;
+    margin:0 auto 34px;
   }
   .hero-actions{
-    gap:12px;
+    gap:14px;
   }
   .hero-actions .btn{
     margin:0;
+    padding:15px 18px;
+    font-size:14px;
   }
 }
-@media (max-height:740px) and (max-width:900px){
+/* Csak nagyon alacsony képernyőn tömörít — a tipikus telefon ne zsugorodjon */
+@media (max-height:580px) and (max-width:900px){
+  .hero{
+    padding:calc(var(--header-h) + 2vh) 0 max(16px, env(safe-area-inset-bottom));
+  }
   .hero .wrap{
-    padding-top:calc(var(--header-h) + 32px + 1cm);
+    transform:translateY(1vh);
   }
   .hero-trust{
-    margin-bottom:16px;
+    margin-bottom:14px;
   }
   .hero h1{
-    font-size:clamp(2.05rem, 8.5vw, 2.45rem);
+    font-size:clamp(2.15rem, 9vw, 2.6rem);
     margin-bottom:12px;
   }
   .hero p.hero-lead{
-    font-size:0.875rem;
-    margin:0 auto 32px;
+    font-size:0.95rem;
+    margin:0 auto 24px;
   }
   .hero-actions{
-    gap:12px;
+    gap:10px;
   }
   .hero-actions .btn{
     padding:12px 14px;
-    font-size:12px;
+    font-size:13px;
   }
 }
 @media (prefers-reduced-motion: reduce){
@@ -3931,17 +3943,28 @@ a.contact-block__value:hover{
   text-decoration:underline;
 }
 @media (max-width:860px){
+  .contact-block-section{
+    padding:48px 0 40px;
+  }
   .contact-block{
     grid-template-columns:1fr;
-    gap:36px;
+    gap:28px;
   }
   .contact-block__map{
-    min-height:260px;
+    min-height:220px;
     aspect-ratio:16 / 11;
   }
   .contact-block__title{
     max-width:none;
-    margin-bottom:28px;
+    margin-bottom:22px;
+    font-size:clamp(1.45rem, 6vw, 1.85rem);
+  }
+  .contact-block__list{
+    gap:18px;
+  }
+  .contact-block__icon{
+    width:44px;
+    height:44px;
   }
 }
 
@@ -3991,29 +4014,36 @@ footer{
 .footer-nav a:hover{
   color:var(--ink);
 }
-.footer-contact-line{
+/* Contact: mobilon mindig oszlop — ne flex-wrap találgatás (F12 ≠ valódi telefon) */
+.footer-contact{
   display:flex;
-  flex-wrap:wrap;
-  align-items:center;
-  gap:8px 12px;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:12px;
   margin:0;
   padding-top:clamp(20px, 3vw, 28px);
   border-top:1px solid var(--line);
   font-size:var(--type-sm);
   color:var(--ink-muted);
   line-height:1.5;
+  width:100%;
 }
-.footer-contact-line a{
+.footer-contact__link{
   color:var(--ink);
   text-decoration:none;
   font-weight:500;
+  display:block;
 }
-.footer-contact-line a:hover{
+.footer-contact__link:hover{
   text-decoration:underline;
   text-underline-offset:3px;
 }
-.footer-contact-line span[aria-hidden="true"]{
-  color:var(--line);
+.footer-contact__addr{
+  color:var(--ink-muted);
+  display:block;
+}
+.footer-contact__sep{
+  display:none;
 }
 .footer-bottom{
   display:flex;
@@ -4043,14 +4073,70 @@ footer{
 }
 /* legacy footer helpers (ha máshol még előfordulnak) */
 .footer-grid{ display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:40px; margin-bottom:50px;}
-@media (max-width:760px){
-  .footer-grid{ grid-template-columns:1fr 1fr; }
+@media (max-width:900px){
+  footer{
+    padding:52px 0 36px;
+    text-align:center;
+  }
+  .footer-inner{
+    align-items:center;
+    gap:32px;
+  }
   .footer-main{
     flex-direction:column;
-    align-items:flex-start;
+    align-items:center;
+    text-align:center;
+    width:100%;
+    gap:24px;
+  }
+  .footer-brand{
+    max-width:none;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+  .footer-about{
+    margin-left:auto;
+    margin-right:auto;
+    max-width:22em;
   }
   .footer-nav{
-    gap:12px 18px;
+    justify-content:center;
+    gap:14px 22px;
+    max-width:20rem;
+  }
+  .footer-contact{
+    align-items:center;
+    text-align:center;
+    gap:14px;
+    padding-top:28px;
+  }
+  .footer-bottom{
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    width:100%;
+    gap:14px;
+  }
+  .footer-grid{ grid-template-columns:1fr; }
+}
+@media (min-width:901px){
+  .footer-contact{
+    flex-direction:row;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:8px 0;
+  }
+  .footer-contact__sep{
+    display:inline;
+    margin:0 14px;
+    color:var(--line);
+    user-select:none;
+  }
+  .footer-contact__link,
+  .footer-contact__addr{
+    display:inline;
   }
 }
 .footer-areas{ margin:0; font-size:14px; color:var(--ink-muted); line-height:1.6; }
@@ -5295,8 +5381,6 @@ footer .flinks a:hover{ color:var(--ink); }
   .cta-actions{ width:100%; flex-direction:column; }
   .cta-actions .btn{ justify-content:center; width:100%; }
 
-  .footer-grid{ grid-template-columns:1fr; gap:28px; }
-  .footer-bottom{ flex-direction:column; text-align:center; }
 }
 
 @media (max-width:480px){

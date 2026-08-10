@@ -1,3 +1,15 @@
+/* Látható viewport → --app-height (ne a böngészősáv mögötti magasság) */
+(function initAppHeight() {
+  const set = () => {
+    const h = window.visualViewport?.height || window.innerHeight;
+    document.documentElement.style.setProperty('--app-height', `${h}px`);
+  };
+  set();
+  window.addEventListener('resize', set, { passive: true });
+  window.visualViewport?.addEventListener('resize', set, { passive: true });
+  window.visualViewport?.addEventListener('scroll', set, { passive: true });
+})();
+
 function initHeaderAndMenu() {
   const header = document.querySelector('.site-header');
   const heroSentinel = document.querySelector('.hero-sentinel');

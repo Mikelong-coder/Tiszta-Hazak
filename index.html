@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+/* Látható magasság (visualViewport) — Messenger/Chrome sáv alatt is F12-szerű középre igazítás */
+(function(){function s(){var h=(window.visualViewport&&window.visualViewport.height)||window.innerHeight;document.documentElement.style.setProperty("--app-height",h+"px")}s();window.addEventListener("resize",s,{passive:true});if(window.visualViewport){window.visualViewport.addEventListener("resize",s,{passive:true});window.visualViewport.addEventListener("scroll",s,{passive:true})}})();
+</script>
 <title>Lakás- és irodatakarítás Budapesten | Tiszta Házak</title>
 <meta name="description" content="Lakás- és irodatakarítás Budapesten és környékén. Megbízható csapat, átlátható irányárak, ingyenes árajánlat. Kérjen személyre szabott ajánlatot még ma.">
 <meta name="robots" content="index, follow, max-image-preview:large">
@@ -26,9 +30,9 @@
 <link rel="preload" as="image" href="assets/images/hero-640w.webp" fetchpriority="high"
   imagesrcset="assets/images/hero-640w.webp 640w, assets/images/hero-960w.webp 960w, assets/images/hero-1280w.webp 1280w, assets/images/hero.webp 1920w"
   imagesizes="100vw">
-<link rel="stylesheet" href="assets/css/critical.css?v=155">
-<link rel="preload" href="assets/css/style.css?v=183" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="assets/css/style.css?v=183"></noscript>
+<link rel="stylesheet" href="assets/css/critical.css?v=159">
+<link rel="preload" href="assets/css/style.css?v=187" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="assets/css/style.css?v=187"></noscript>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -701,13 +705,13 @@
         <a href="kapcsolat.html">Kapcsolat</a>
       </nav>
     </div>
-    <p class="footer-contact-line">
-      <a href="tel:+36703895697">+36 70 389 5697</a>
-      <span aria-hidden="true">·</span>
-      <a href="mailto:tisztahazakbp@gmail.com">tisztahazakbp@gmail.com</a>
-      <span aria-hidden="true">·</span>
-      <span>1102 Budapest, Halom u. 9.</span>
-    </p>
+    <div class="footer-contact" aria-label="Elérhetőségek">
+      <a class="footer-contact__link" href="tel:+36703895697">+36 70 389 5697</a>
+      <span class="footer-contact__sep" aria-hidden="true">·</span>
+      <a class="footer-contact__link" href="mailto:tisztahazakbp@gmail.com">tisztahazakbp@gmail.com</a>
+      <span class="footer-contact__sep" aria-hidden="true">·</span>
+      <span class="footer-contact__addr">1102 Budapest, Halom u. 9.</span>
+    </div>
     <div class="footer-bottom">
       <span>© 2026 Tiszta Házak Kft.</span>
       <span class="footer-legal">
@@ -718,6 +722,6 @@
   </div>
 </footer>
 
-<script src="assets/js/main.js?v=178" defer></script>
+<script src="assets/js/main.js?v=182" defer></script>
 </body>
 </html>
