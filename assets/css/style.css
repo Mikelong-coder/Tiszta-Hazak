@@ -3575,6 +3575,32 @@ textarea:focus-visible{
   background:var(--cream-alt);
   box-shadow:none;
 }
+.quote-form__consent{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  margin:4px 0 2px;
+  font-size:13px;
+  line-height:1.5;
+  color:var(--ink-soft);
+  cursor:pointer;
+}
+.quote-form__consent input{
+  flex-shrink:0;
+  width:18px;
+  height:18px;
+  margin:2px 0 0;
+  accent-color:var(--accent-dark);
+  cursor:pointer;
+}
+.quote-form__consent a{
+  color:var(--ink);
+  text-decoration:underline;
+  text-underline-offset:2px;
+}
+.quote-form__consent a:hover{
+  color:var(--why-taupe-deep);
+}
 .quote-form__submit{
   width:100%;
   justify-content:center;

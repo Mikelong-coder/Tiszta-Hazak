@@ -36,9 +36,9 @@
   imagesrcset="assets/images/hero-640w.webp 640w, assets/images/hero-960w.webp 960w, assets/images/hero-1280w.webp 1280w, assets/images/hero.webp 1920w"
   imagesizes="100vw"
   media="(min-width: 901px)">
-<link rel="stylesheet" href="assets/css/critical.css?v=198">
-<link rel="preload" href="assets/css/style.css?v=237" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="assets/css/style.css?v=237"></noscript>
+<link rel="stylesheet" href="assets/css/critical.css?v=200">
+<link rel="preload" href="assets/css/style.css?v=239" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="assets/css/style.css?v=239"></noscript>
 <noscript><style>[data-reveal]{opacity:1!important;transform:none!important}</style></noscript>
 </head>
 <body>
@@ -550,9 +550,13 @@
           <label for="quote-message-home">Megjegyzés <span class="quote-form__optional">(opcionális)</span></label>
           <textarea id="quote-message-home" name="message" rows="4" placeholder="Pl. lakás mérete, kívánt időpont…"></textarea>
         </div>
+        <label class="quote-form__consent">
+          <input type="checkbox" name="privacy" value="1" required>
+          <span>Elolvastam és elfogadom az <a href="adatvedelem.html" target="_blank" rel="noopener noreferrer">adatkezelési tájékoztatót</a>.</span>
+        </label>
         <button type="submit" class="btn btn-primary quote-form__submit">Árajánlatot kérek</button>
         <p class="quote-form__status" data-form-status role="status" aria-live="polite"></p>
-        <p class="quote-form__note">Az ajánlatkérés nem jár kötelezettséggel. Adatait kizárólag ajánlatadáshoz használjuk.</p>
+        <p class="quote-form__note">Az ajánlatkérés nem jár kötelezettséggel.</p>
       </form>
     </div>
   </div>
@@ -760,6 +764,6 @@
   ]
 }
 </script>
-<script src="assets/js/main.js?v=227" defer></script>
+<script src="assets/js/main.js?v=229" defer></script>
 </body>
 </html>
