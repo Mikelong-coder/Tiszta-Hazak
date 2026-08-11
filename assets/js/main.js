@@ -210,10 +210,8 @@ function initCritical() {
 }
 
 function initDeferred() {
-  /* Csak késői UI — a reveal azonnal fusson, különben az idle timeout TBT-t okoz */
   setupSocialProof();
   setupStatCounters();
-  setupMapFacades();
 }
 
 function scheduleIdle(fn, timeout) {
@@ -227,51 +225,8 @@ function scheduleIdle(fn, timeout) {
 document.addEventListener('DOMContentLoaded', () => {
   initCritical();
   const isMobile = window.matchMedia('(max-width: 900px)').matches;
-  scheduleIdle(initDeferred, isMobile ? 2500 : 1000);
+  scheduleIdle(initDeferred, isMobile ? 1800 : 600);
 });
-
-function setupMapFacades() {
-  document.querySelectorAll('[data-map-facade]').forEach((host) => {
-    const src = host.getAttribute('data-map-src');
-    if (!src || host.querySelector('iframe')) return;
-
-    let loading = false;
-    const load = () => {
-      if (loading || host.querySelector('iframe')) return;
-      loading = true;
-      const iframe = document.createElement('iframe');
-      iframe.src = src;
-      iframe.title = host.getAttribute('data-map-title') || 'Térkép';
-      iframe.width = '600';
-      iframe.height = '450';
-      iframe.setAttribute('loading', 'lazy');
-      iframe.setAttribute('referrerpolicy', 'no-referrer-when-downgrade');
-      iframe.allowFullscreen = true;
-      host.appendChild(iframe);
-      host.classList.add('is-loaded');
-    };
-
-    /*
-     * Csak ha tényleg a viewportba ér — kis rootMargin.
-     * Nagy előtöltés (pl. 240px) a Lighthouse scroll alatt is behúzza a Maps-et → TBT romlik.
-     */
-    if ('IntersectionObserver' in window) {
-      const io = new IntersectionObserver(
-        (entries) => {
-          if (!entries.some((e) => e.isIntersecting)) return;
-          io.disconnect();
-          load();
-        },
-        { rootMargin: '0px 0px 0px 0px', threshold: 0.2 }
-      );
-      io.observe(host);
-    } else {
-      load();
-    }
-
-    host.querySelector('[data-map-load]')?.addEventListener('click', load, { once: true });
-  });
-}
 
 function setupSocialProof() {
   const root = document.querySelector('[data-social-proof]');
