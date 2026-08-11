@@ -48,8 +48,17 @@ function initHeaderAndMenu() {
       document.body.classList.toggle('header-solid', coverHeader);
     };
 
-    window.addEventListener('scroll', updateHeroPin, { passive: true });
-    window.addEventListener('resize', updateHeroPin, { passive: true });
+    let pinTicking = false;
+    const scheduleHeroPin = () => {
+      if (pinTicking) return;
+      pinTicking = true;
+      requestAnimationFrame(() => {
+        pinTicking = false;
+        updateHeroPin();
+      });
+    };
+    window.addEventListener('scroll', scheduleHeroPin, { passive: true });
+    window.addEventListener('resize', scheduleHeroPin, { passive: true });
     updateHeroPin();
     /* Reveal után újraértékelés (különben beragadhat a téves solid) */
     window.setTimeout(updateHeroPin, 120);
@@ -195,20 +204,6 @@ function initHeaderAndMenu() {
   });
 }
 
-function initCritical() {
-  initHeaderAndMenu();
-  setupFaqAccordion();
-  setupQuoteForms();
-  setupContactForms();
-  setupSplitSectionReveals();
-  initHeroReveals();
-  initSubIntroReveals();
-  initWhySplitReveal();
-  initReveal();
-  initSvcHashFocus();
-  initQuoteHashNav();
-}
-
 function initDeferred() {
   setupSocialProof();
   setupStatCounters();
@@ -223,10 +218,44 @@ function scheduleIdle(fn, timeout) {
   window.setTimeout(fn, 1);
 }
 
+function yieldToMain() {
+  return new Promise((resolve) => {
+    setTimeout(resolve, 0);
+  });
+}
+
+/* Lépésenként yield — a nagy sync init szétveri a mobil TBT-t */
 document.addEventListener('DOMContentLoaded', () => {
-  initCritical();
-  const isMobile = window.matchMedia('(max-width: 900px)').matches;
-  scheduleIdle(initDeferred, isMobile ? 1800 : 600);
+  const steps = [
+    () => initHeaderAndMenu(),
+    () => {
+      setupSplitSectionReveals();
+      initHeroReveals();
+      initSubIntroReveals();
+    },
+    () => {
+      initWhySplitReveal();
+      initReveal();
+    },
+    () => {
+      setupFaqAccordion();
+      setupQuoteForms();
+      setupContactForms();
+    },
+    () => {
+      initSvcHashFocus();
+      initQuoteHashNav();
+    },
+  ];
+
+  (async () => {
+    for (const step of steps) {
+      step();
+      await yieldToMain();
+    }
+    const isMobile = window.matchMedia('(max-width: 900px)').matches;
+    scheduleIdle(initDeferred, isMobile ? 1800 : 600);
+  })();
 });
 
 /* Csak kattintásra — görgetéskor a Google Maps szétveri a mobil PageSpeed TBT-t */
@@ -1032,7 +1061,7 @@ function initReveal() {
         observer.unobserve(entry.target);
       });
     },
-    { threshold: [0, 0.15, 0.25], rootMargin: '0px 0px -24% 0px' }
+    { threshold: 0.15, rootMargin: '0px 0px -24% 0px' }
   );
 
   scrollReveals.forEach((el) => {
