@@ -200,17 +200,17 @@ function initCritical() {
   setupFaqAccordion();
   setupQuoteForms();
   setupContactForms();
+  setupSplitSectionReveals();
   initHeroReveals();
   initSubIntroReveals();
+  initWhySplitReveal();
+  initReveal();
   initSvcHashFocus();
   initQuoteHashNav();
 }
 
 function initDeferred() {
-  /* Below-fold reveal / carousel / térkép — idle, hogy a TBT alacsonyabb legyen */
-  setupSplitSectionReveals();
-  initWhySplitReveal();
-  initReveal();
+  /* Csak késői UI — a reveal azonnal fusson, különben az idle timeout TBT-t okoz */
   setupSocialProof();
   setupStatCounters();
   setupMapFacades();
@@ -227,7 +227,7 @@ function scheduleIdle(fn, timeout) {
 document.addEventListener('DOMContentLoaded', () => {
   initCritical();
   const isMobile = window.matchMedia('(max-width: 900px)').matches;
-  scheduleIdle(initDeferred, isMobile ? 2200 : 900);
+  scheduleIdle(initDeferred, isMobile ? 2500 : 1000);
 });
 
 function setupMapFacades() {
