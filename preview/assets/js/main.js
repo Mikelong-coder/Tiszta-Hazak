@@ -204,20 +204,6 @@ function initHeaderAndMenu() {
   });
 }
 
-function initCritical() {
-  initHeaderAndMenu();
-  setupFaqAccordion();
-  setupQuoteForms();
-  setupContactForms();
-  setupSplitSectionReveals();
-  initHeroReveals();
-  initSubIntroReveals();
-  initWhySplitReveal();
-  initReveal();
-  initSvcHashFocus();
-  initQuoteHashNav();
-}
-
 function initDeferred() {
   setupSocialProof();
   setupStatCounters();
@@ -398,6 +384,14 @@ function loadMapHost(host) {
 
 /* Click-to-load — Google Maps csak hozzájárulás + kattintás után */
 function setupMapFacades() {
+  /* Főoldal mobil: térkép CSS-sel rejtve — ne kössünk rá listener-t */
+  if (
+    document.body.classList.contains('page-home') &&
+    window.matchMedia('(max-width: 900px)').matches
+  ) {
+    return;
+  }
+
   document.querySelectorAll('[data-map-facade]').forEach((host) => {
     const src = host.getAttribute('data-map-src');
     const btn = host.querySelector('[data-map-load]');
@@ -630,28 +624,30 @@ function openCookieSettings(opts = {}) {
   ui.openModal(opts);
 }
 
+/* Könnyű indítás: nincs DOM-építés a first paint alatt */
 function initCookieConsent() {
-  const ui = buildCookieUi();
   const existing = getConsent();
+  if (existing) applyConsent(existing);
 
-  document.querySelectorAll('[data-cookie-settings]').forEach((el) => {
-    el.addEventListener('click', (e) => {
+  if (!window.__thCookieDelegated) {
+    window.__thCookieDelegated = true;
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-cookie-settings]');
+      if (!btn) return;
       e.preventDefault();
       openCookieSettings();
     });
-  });
-
-  if (existing) {
-    applyConsent(existing);
-    return;
   }
 
-  /* Hero betűeffektek után — ne takarja a belépést */
+  if (existing) return;
+
   const hasHero = !!document.querySelector('.hero [data-reveal]');
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const delay = prefersReduced ? 200 : hasHero ? 2600 : 900;
+  const delay = prefersReduced ? 400 : hasHero ? 2800 : 1200;
   window.setTimeout(() => {
-    if (!getConsent()) ui.showBanner();
+    scheduleIdle(() => {
+      if (!getConsent()) buildCookieUi().showBanner();
+    }, 800);
   }, delay);
 }
 
@@ -663,11 +659,45 @@ function scheduleIdle(fn, timeout) {
   window.setTimeout(fn, 1);
 }
 
+function yieldToMain() {
+  return new Promise((resolve) => {
+    setTimeout(resolve, 0);
+  });
+}
+
+/* Lépésenként yield — a nagy sync init szétveri a mobil TBT-t */
 document.addEventListener('DOMContentLoaded', () => {
-  initCritical();
-  initCookieConsent();
-  const isMobile = window.matchMedia('(max-width: 900px)').matches;
-  scheduleIdle(initDeferred, isMobile ? 1800 : 600);
+  const steps = [
+    () => initHeaderAndMenu(),
+    () => {
+      setupSplitSectionReveals();
+      initHeroReveals();
+      initSubIntroReveals();
+    },
+    () => {
+      initWhySplitReveal();
+      initReveal();
+    },
+    () => {
+      setupFaqAccordion();
+      setupQuoteForms();
+      setupContactForms();
+    },
+    () => {
+      initSvcHashFocus();
+      initQuoteHashNav();
+      initCookieConsent();
+    },
+  ];
+
+  (async () => {
+    for (const step of steps) {
+      step();
+      await yieldToMain();
+    }
+    const isMobile = window.matchMedia('(max-width: 900px)').matches;
+    scheduleIdle(initDeferred, isMobile ? 1800 : 600);
+  })();
 });
 
 function setupSocialProof() {
