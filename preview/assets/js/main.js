@@ -200,17 +200,17 @@ function initCritical() {
   setupFaqAccordion();
   setupQuoteForms();
   setupContactForms();
-  /* Előbb saját időzítés, aztán play — ne Elementor 200-as skálával induljon */
-  setupSplitSectionReveals();
   initHeroReveals();
   initSubIntroReveals();
-  initWhySplitReveal();
-  initReveal();
   initSvcHashFocus();
   initQuoteHashNav();
 }
 
 function initDeferred() {
+  /* Below-fold reveal / carousel / térkép — idle, hogy a TBT alacsonyabb legyen */
+  setupSplitSectionReveals();
+  initWhySplitReveal();
+  initReveal();
   setupSocialProof();
   setupStatCounters();
   setupMapFacades();
@@ -227,8 +227,7 @@ function scheduleIdle(fn, timeout) {
 document.addEventListener('DOMContentLoaded', () => {
   initCritical();
   const isMobile = window.matchMedia('(max-width: 900px)').matches;
-  /* Carousel / számlálók / térkép: idle — ne üsse az első viewport TBT-jét */
-  scheduleIdle(initDeferred, isMobile ? 2000 : 800);
+  scheduleIdle(initDeferred, isMobile ? 2200 : 900);
 });
 
 function setupMapFacades() {
