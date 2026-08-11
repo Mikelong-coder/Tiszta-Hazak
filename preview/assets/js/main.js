@@ -400,9 +400,10 @@ if (!el || el.classList.contains('reveal-in')) return;const delay = parseInt(el.
 requestAnimationFrame(() => {
 requestAnimationFrame(() => el.classList.add('reveal-in'));});}
 function initHeroReveals() {
-/* Hero tartalom CSS-ben azonnal látható — csak jelöljük késznek a header pinhez */
-document.querySelectorAll('.hero [data-reveal]').forEach((el) => {
-el.classList.add('reveal-in');});}
+const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;document.querySelectorAll('.hero [data-reveal]').forEach((el) => {
+if (prefersReduced) {
+el.classList.add('reveal-in');return;}
+playReveal(el);});}
 /* Aloldal / first-fold: saját 240ms lépésritmus */
 function initSubIntroReveals() {
 const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;const aboveFold = document.querySelectorAll(

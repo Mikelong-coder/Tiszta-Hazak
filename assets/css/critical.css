@@ -1,6 +1,50 @@
-/* Főoldal LCP — MakeUp-minta: NINCS @font-face a criticalben.
-   Montserrat → fonts.css (mobilon window.load után, asztalon async).
-   Első festés: system-ui fallback a stackben. */
+/* Főoldal LCP — MakeUp-minta: NINCS webfont a criticalben.
+   Montserrat → fonts.css (mobilon window.load után).
+   Fallback Arial metrikák ≈ Montserrat → kisebb CLS font-swapnál. */
+@font-face{
+  font-family:"Montserrat Fallback";
+  font-style:normal;
+  font-weight:300;
+  font-display:swap;
+  src:local("Arial");
+  size-adjust:112.19%;
+  ascent-override:90.49%;
+  descent-override:23.53%;
+  line-gap-override:0%;
+}
+@font-face{
+  font-family:"Montserrat Fallback";
+  font-style:normal;
+  font-weight:400;
+  font-display:swap;
+  src:local("Arial");
+  size-adjust:112.19%;
+  ascent-override:90.49%;
+  descent-override:23.53%;
+  line-gap-override:0%;
+}
+@font-face{
+  font-family:"Montserrat Fallback";
+  font-style:normal;
+  font-weight:500;
+  font-display:swap;
+  src:local("Arial");
+  size-adjust:112.19%;
+  ascent-override:90.49%;
+  descent-override:23.53%;
+  line-gap-override:0%;
+}
+@font-face{
+  font-family:"Montserrat Fallback";
+  font-style:normal;
+  font-weight:600;
+  font-display:swap;
+  src:local("Arial");
+  size-adjust:112.19%;
+  ascent-override:90.49%;
+  descent-override:23.53%;
+  line-gap-override:0%;
+}
 :root{
   --cream:#FFFDFA;
   --ink:#050505;
@@ -13,8 +57,8 @@
   --radius-btn:2px;
   --radius-pill:999px;
   --header-h:72px;
-  --font-display:"Montserrat",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --font-body:"Montserrat",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-display:"Montserrat","Montserrat Fallback",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-body:"Montserrat","Montserrat Fallback",system-ui,-apple-system,"Segoe UI",sans-serif;
   --ease-reveal:cubic-bezier(0.16,1,0.3,1);
   --reveal-duration:1500ms;
   --reveal-distance:100px;
@@ -234,11 +278,25 @@ main > section:not(.hero){position:relative;z-index:2;}
 .hero-trust__text{font-size:12px;color:rgba(255,253,250,.92);white-space:nowrap;}
 .hero-trust__text strong{font-weight:600;color:#fff;}
 
-/* Hero azonnal látható — az opacity:0 reveal rontja a Speed Index / PageSpeed mobil pontot */
-.hero [data-reveal]{
-  opacity:1;
-  transform:none;
+/* Hero becsúszás / fade — induláskor rejtve, JS adja a .reveal-in-t */
+.hero{
+  --reveal-duration:1100ms;
+  --reveal-distance:48px;
+  --ease-reveal:cubic-bezier(0.22, 0.61, 0.36, 1);
 }
+.hero [data-reveal]{
+  opacity:0;
+  transition:
+    opacity var(--reveal-duration) var(--ease-reveal),
+    transform var(--reveal-duration) var(--ease-reveal);
+  transition-delay:var(--reveal-delay, 0ms);
+}
+.hero [data-reveal="fade"]{transform:none;}
+.hero [data-reveal="left"]{transform:translate3d(var(--reveal-distance),0,0);}
+.hero [data-reveal="right"]{transform:translate3d(calc(var(--reveal-distance) * -1),0,0);}
+.hero [data-reveal="up"]{transform:translate3d(0,var(--reveal-distance),0);}
+.hero [data-reveal="down"]{transform:translate3d(0,calc(var(--reveal-distance) * -1),0);}
+.hero [data-reveal].reveal-in{opacity:1;transform:none;}
 
 /* Amíg a teljes CSS tölt: ne villanjon be a lentebbi tartalom, majd tűnjön el */
 section:not(.hero) [data-reveal]{opacity:0;}
@@ -255,6 +313,7 @@ section:not(.hero) [data-reveal].reveal-in{opacity:1;}
     padding:8px max(12px,env(safe-area-inset-right)) 8px max(12px,env(safe-area-inset-left));
   }
   .hero{
+    --reveal-distance:36px;
     padding:calc(var(--header-h) + 6vh) 0 max(28px,env(safe-area-inset-bottom),7vh);
   }
   .hero .wrap{transform:translateY(3.5vh);}

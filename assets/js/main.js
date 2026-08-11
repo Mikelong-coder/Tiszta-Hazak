@@ -1100,9 +1100,13 @@ function playReveal(el) {
 }
 
 function initHeroReveals() {
-  /* Hero tartalom CSS-ben azonnal látható — csak jelöljük késznek a header pinhez */
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   document.querySelectorAll('.hero [data-reveal]').forEach((el) => {
-    el.classList.add('reveal-in');
+    if (prefersReduced) {
+      el.classList.add('reveal-in');
+      return;
+    }
+    playReveal(el);
   });
 }
 
