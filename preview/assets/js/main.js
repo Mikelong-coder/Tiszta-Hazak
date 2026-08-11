@@ -251,7 +251,7 @@ window.setTimeout(fn, 1);}
 function yieldToMain() {
 return new Promise((resolve) => {
 setTimeout(resolve, 0);});}
-/* Lépésenként yield — a nagy sync init szétveri a mobil TBT-t */
+/* Lépésenként yield — MakeUp-minta: kritikus út rövid, űrlap/süti/idle később */
 document.addEventListener('DOMContentLoaded', () => {
 const steps = [
 () => initHeaderAndMenu(),
@@ -259,14 +259,11 @@ const steps = [
 setupSplitSectionReveals();initHeroReveals();initSubIntroReveals();},
 () => {
 initWhySplitReveal();initReveal();},
-() => {
-setupFaqAccordion();setupQuoteForms();setupContactForms();},
-() => {
-initSvcHashFocus();initQuoteHashNav();initCookieConsent();},
 ];(async () => {
 for (const step of steps) {
 step();await yieldToMain();}
-const isMobile = window.matchMedia('(max-width: 900px)').matches;scheduleIdle(initDeferred, isMobile ? 1800 : 600);})();});function setupSocialProof() {
+const isMobile = window.matchMedia('(max-width: 900px)').matches;scheduleIdle(() => {
+setupFaqAccordion();setupQuoteForms();setupContactForms();initSvcHashFocus();initQuoteHashNav();initCookieConsent();}, isMobile ? 1400 : 500);scheduleIdle(initDeferred, isMobile ? 2200 : 800);})();});function setupSocialProof() {
 const root = document.querySelector('[data-social-proof]');if (!root) return;const track = root.querySelector('.social-proof__track');const slides = track ? [...track.querySelectorAll('.social-proof__slide')] : [];if (!slides.length || !track) return;const section = root.closest('.social-proof');if (slides.length < 2) {
 section?.classList.add('social-proof--single');return;}
 const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;const intervalMs = 6000;let current = 0;let timer = null;let visible = false;let focused = false;const dotsHost = root.closest('.social-proof')?.querySelector('.social-proof__dots');let dots = [];const setActiveDot = () => {

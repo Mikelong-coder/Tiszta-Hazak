@@ -665,7 +665,7 @@ function yieldToMain() {
   });
 }
 
-/* Lépésenként yield — a nagy sync init szétveri a mobil TBT-t */
+/* Lépésenként yield — MakeUp-minta: kritikus út rövid, űrlap/süti/idle később */
 document.addEventListener('DOMContentLoaded', () => {
   const steps = [
     () => initHeaderAndMenu(),
@@ -678,16 +678,6 @@ document.addEventListener('DOMContentLoaded', () => {
       initWhySplitReveal();
       initReveal();
     },
-    () => {
-      setupFaqAccordion();
-      setupQuoteForms();
-      setupContactForms();
-    },
-    () => {
-      initSvcHashFocus();
-      initQuoteHashNav();
-      initCookieConsent();
-    },
   ];
 
   (async () => {
@@ -696,7 +686,15 @@ document.addEventListener('DOMContentLoaded', () => {
       await yieldToMain();
     }
     const isMobile = window.matchMedia('(max-width: 900px)').matches;
-    scheduleIdle(initDeferred, isMobile ? 1800 : 600);
+    scheduleIdle(() => {
+      setupFaqAccordion();
+      setupQuoteForms();
+      setupContactForms();
+      initSvcHashFocus();
+      initQuoteHashNav();
+      initCookieConsent();
+    }, isMobile ? 1400 : 500);
+    scheduleIdle(initDeferred, isMobile ? 2200 : 800);
   })();
 });
 
