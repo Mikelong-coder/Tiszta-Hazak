@@ -26,7 +26,6 @@
 <link rel="icon" href="favicon.png" type="image/png">
 <link rel="preload" href="assets/fonts/montserrat-latin-300-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/montserrat-latin-ext-300-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/montserrat-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" as="image" href="assets/images/hero-mobile-640w.webp" fetchpriority="high"
   imagesrcset="assets/images/hero-mobile-640w.webp 640w, assets/images/hero-mobile-960w.webp 960w"
   imagesizes="100vw"
@@ -35,101 +34,10 @@
   imagesrcset="assets/images/hero-640w.webp 640w, assets/images/hero-960w.webp 960w, assets/images/hero-1280w.webp 1280w, assets/images/hero.webp 1920w"
   imagesizes="100vw"
   media="(min-width: 901px)">
-<link rel="stylesheet" href="assets/css/critical.css?v=170">
-<link rel="preload" href="assets/css/style.css?v=209" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="assets/css/style.css?v=209"></noscript>
+<link rel="stylesheet" href="assets/css/critical.css?v=171">
+<link rel="preload" href="assets/css/style.css?v=210" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="assets/css/style.css?v=210"></noscript>
 <noscript><style>[data-reveal]{opacity:1!important;transform:none!important}</style></noscript>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebSite",
-      "@id": "https://www.tisztahazak.hu/#website",
-      "url": "https://www.tisztahazak.hu/",
-      "name": "Tiszta Házak Kft.",
-      "inLanguage": "hu-HU",
-      "publisher": { "@id": "https://www.tisztahazak.hu/#business" }
-    },
-    {
-      "@type": ["LocalBusiness", "HomeAndConstructionBusiness"],
-      "@id": "https://www.tisztahazak.hu/#business",
-      "name": "Tiszta Házak Kft.",
-      "alternateName": "Tiszta Házak",
-      "description": "Lakás- és irodatakarítás Budapesten és környékén. Professzionális takarítószolgáltatás magánszemélyeknek és cégeknek.",
-      "url": "https://www.tisztahazak.hu/",
-      "telephone": "+36703895697",
-      "email": "tisztahazakbp@gmail.com",
-      "image": "https://www.tisztahazak.hu/assets/images/hero.webp",
-      "priceRange": "Ft",
-      "currenciesAccepted": "HUF",
-      "paymentAccepted": "Cash, Bank Transfer",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Halom u. 9.",
-        "postalCode": "1102",
-        "addressLocality": "Budapest",
-        "addressRegion": "Budapest",
-        "addressCountry": "HU"
-      },
-      "openingHoursSpecification": [
-        {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-          "opens": "08:00",
-          "closes": "18:00"
-        },
-        {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": "Saturday",
-          "opens": "08:00",
-          "closes": "14:00"
-        }
-      ],
-      "areaServed": [
-        { "@type": "City", "name": "Budapest" },
-        { "@type": "AdministrativeArea", "name": "Pest vármegye" }
-      ],
-      "knowsAbout": [
-        "lakástakarítás",
-        "irodatakarítás",
-        "lakástakarítás Budapest",
-        "irodatakarítás Budapest",
-        "lépcsőháztakarítás",
-        "takarítás Budapest"
-      ],
-      "hasOfferCatalog": {
-        "@type": "OfferCatalog",
-        "name": "Takarítási szolgáltatások",
-        "itemListElement": [
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Lakástakarítás",
-              "serviceType": "Lakástakarítás",
-              "areaServed": { "@type": "City", "name": "Budapest" },
-              "provider": { "@id": "https://www.tisztahazak.hu/#business" },
-              "url": "https://www.tisztahazak.hu/szolgaltatasok.html#lakastakaritas"
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Irodatakarítás",
-              "serviceType": "Irodatakarítás",
-              "areaServed": { "@type": "City", "name": "Budapest" },
-              "provider": { "@id": "https://www.tisztahazak.hu/#business" },
-              "url": "https://www.tisztahazak.hu/szolgaltatasok.html#irodatakaritas"
-            }
-          }
-        ]
-      }
-    }
-  ]
-}
-</script>
 </head>
 <body>
 
@@ -224,7 +132,7 @@
         width="1920"
         height="1080"
         fetchpriority="high"
-        decoding="async">
+        decoding="sync">
     </picture>
     <div class="hero-overlay"></div>
   </div>
@@ -753,6 +661,97 @@
   </div>
 </footer>
 
-<script src="assets/js/main.js?v=199" defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://www.tisztahazak.hu/#website",
+      "url": "https://www.tisztahazak.hu/",
+      "name": "Tiszta Házak Kft.",
+      "inLanguage": "hu-HU",
+      "publisher": { "@id": "https://www.tisztahazak.hu/#business" }
+    },
+    {
+      "@type": ["LocalBusiness", "HomeAndConstructionBusiness"],
+      "@id": "https://www.tisztahazak.hu/#business",
+      "name": "Tiszta Házak Kft.",
+      "alternateName": "Tiszta Házak",
+      "description": "Lakás- és irodatakarítás Budapesten és környékén. Professzionális takarítószolgáltatás magánszemélyeknek és cégeknek.",
+      "url": "https://www.tisztahazak.hu/",
+      "telephone": "+36703895697",
+      "email": "tisztahazakbp@gmail.com",
+      "image": "https://www.tisztahazak.hu/assets/images/hero.webp",
+      "priceRange": "Ft",
+      "currenciesAccepted": "HUF",
+      "paymentAccepted": "Cash, Bank Transfer",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Halom u. 9.",
+        "postalCode": "1102",
+        "addressLocality": "Budapest",
+        "addressRegion": "Budapest",
+        "addressCountry": "HU"
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          "opens": "08:00",
+          "closes": "18:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Saturday",
+          "opens": "08:00",
+          "closes": "14:00"
+        }
+      ],
+      "areaServed": [
+        { "@type": "City", "name": "Budapest" },
+        { "@type": "AdministrativeArea", "name": "Pest vármegye" }
+      ],
+      "knowsAbout": [
+        "lakástakarítás",
+        "irodatakarítás",
+        "lakástakarítás Budapest",
+        "irodatakarítás Budapest",
+        "lépcsőháztakarítás",
+        "takarítás Budapest"
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Takarítási szolgáltatások",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Lakástakarítás",
+              "serviceType": "Lakástakarítás",
+              "areaServed": { "@type": "City", "name": "Budapest" },
+              "provider": { "@id": "https://www.tisztahazak.hu/#business" },
+              "url": "https://www.tisztahazak.hu/szolgaltatasok.html#lakastakaritas"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Irodatakarítás",
+              "serviceType": "Irodatakarítás",
+              "areaServed": { "@type": "City", "name": "Budapest" },
+              "provider": { "@id": "https://www.tisztahazak.hu/#business" },
+              "url": "https://www.tisztahazak.hu/szolgaltatasok.html#irodatakaritas"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
+</script>
+<script src="assets/js/main.js?v=200" defer></script>
 </body>
 </html>

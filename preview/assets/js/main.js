@@ -52,9 +52,7 @@ function initHeaderAndMenu() {
     window.addEventListener('resize', updateHeroPin, { passive: true });
     updateHeroPin();
     /* Reveal után újraértékelés (különben beragadhat a téves solid) */
-    window.setTimeout(updateHeroPin, 50);
-    window.setTimeout(updateHeroPin, 400);
-    window.setTimeout(updateHeroPin, 900);
+    window.setTimeout(updateHeroPin, 120);
   } else if (header && heroSentinel && 'IntersectionObserver' in window) {
     header.classList.remove('is-solid');
     document.body.classList.remove('header-solid', 'past-hero');
@@ -199,25 +197,23 @@ function initHeaderAndMenu() {
 
 function initCritical() {
   initHeaderAndMenu();
+  setupFaqAccordion();
+  setupQuoteForms();
+  setupContactForms();
+  /* Előbb saját időzítés, aztán play — ne Elementor 200-as skálával induljon */
+  setupSplitSectionReveals();
   initHeroReveals();
+  initSubIntroReveals();
+  initWhySplitReveal();
+  initReveal();
   initSvcHashFocus();
   initQuoteHashNav();
 }
 
-function initInteractiveDeferred() {
-  setupFaqAccordion();
-  setupQuoteForms();
-  setupContactForms();
-  setupMapFacades();
-}
-
-function initVisualDeferred() {
-  setupSplitSectionReveals();
-  initSubIntroReveals();
-  initWhySplitReveal();
-  initReveal();
+function initDeferred() {
   setupSocialProof();
   setupStatCounters();
+  setupMapFacades();
 }
 
 function scheduleIdle(fn, timeout) {
@@ -225,15 +221,14 @@ function scheduleIdle(fn, timeout) {
     requestIdleCallback(fn, { timeout });
     return;
   }
-  window.setTimeout(fn, Math.min(timeout, 50));
+  window.setTimeout(fn, 1);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   initCritical();
   const isMobile = window.matchMedia('(max-width: 900px)').matches;
-  /* Űrlapok / FAQ hamarabb — a reveal/carousel várhat a main threaden */
-  scheduleIdle(initInteractiveDeferred, isMobile ? 500 : 200);
-  scheduleIdle(initVisualDeferred, isMobile ? 1400 : 500);
+  /* Carousel / számlálók / térkép: idle — ne üsse az első viewport TBT-jét */
+  scheduleIdle(initDeferred, isMobile ? 2000 : 800);
 });
 
 function setupMapFacades() {
@@ -257,7 +252,10 @@ function setupMapFacades() {
       host.classList.add('is-loaded');
     };
 
-    /* Görgetésre / közelítésre tölt — ne kelljen kattintani */
+    /*
+     * Csak ha tényleg a viewportba ér — kis rootMargin.
+     * Nagy előtöltés (pl. 240px) a Lighthouse scroll alatt is behúzza a Maps-et → TBT romlik.
+     */
     if ('IntersectionObserver' in window) {
       const io = new IntersectionObserver(
         (entries) => {
@@ -265,7 +263,7 @@ function setupMapFacades() {
           io.disconnect();
           load();
         },
-        { rootMargin: '240px 0px', threshold: 0.01 }
+        { rootMargin: '0px 0px 0px 0px', threshold: 0.2 }
       );
       io.observe(host);
     } else {
