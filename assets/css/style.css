@@ -1,68 +1,4 @@
-/* Önhostolt Montserrat — latin + latin-ext (hu: ő, ű…). Nincs Google Fonts CDN. */
-@font-face{
-  font-family:"Montserrat";
-  font-style:normal;
-  font-weight:300;
-  font-display:swap;
-  src:url("../fonts/montserrat-latin-ext-300-normal.woff2") format("woff2");
-  unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
-}
-@font-face{
-  font-family:"Montserrat";
-  font-style:normal;
-  font-weight:300;
-  font-display:swap;
-  src:url("../fonts/montserrat-latin-300-normal.woff2") format("woff2");
-  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
-}
-@font-face{
-  font-family:"Montserrat";
-  font-style:normal;
-  font-weight:400;
-  font-display:swap;
-  src:url("../fonts/montserrat-latin-ext-400-normal.woff2") format("woff2");
-  unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
-}
-@font-face{
-  font-family:"Montserrat";
-  font-style:normal;
-  font-weight:400;
-  font-display:swap;
-  src:url("../fonts/montserrat-latin-400-normal.woff2") format("woff2");
-  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
-}
-@font-face{
-  font-family:"Montserrat";
-  font-style:normal;
-  font-weight:500;
-  font-display:swap;
-  src:url("../fonts/montserrat-latin-ext-500-normal.woff2") format("woff2");
-  unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
-}
-@font-face{
-  font-family:"Montserrat";
-  font-style:normal;
-  font-weight:500;
-  font-display:swap;
-  src:url("../fonts/montserrat-latin-500-normal.woff2") format("woff2");
-  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
-}
-@font-face{
-  font-family:"Montserrat";
-  font-style:normal;
-  font-weight:600;
-  font-display:swap;
-  src:url("../fonts/montserrat-latin-ext-600-normal.woff2") format("woff2");
-  unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
-}
-@font-face{
-  font-family:"Montserrat";
-  font-style:normal;
-  font-weight:600;
-  font-display:swap;
-  src:url("../fonts/montserrat-latin-600-normal.woff2") format("woff2");
-  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
-}
+/* Betűtípusok: fonts.css (egyszer betöltve minden oldalon). */
 
 :root{
   /* 60% krém · 30% charcoal/taupe · 10% kontraszt (fehér/krém a sötéten) — arany és zöld nélkül */
@@ -2160,21 +2096,19 @@ section:not(.hero){
   position:absolute;
   inset:0;
   overflow:hidden;
-  /* Fotó a ::before-ön — ugyanaz a globális filter, mint az <img>-eken */
-  --photo-bg:image-set(
-    url("../images/cta-woman-relax-640w.webp") 1x,
-    url("../images/cta-woman-relax-1280w.webp") 2x
-  );
+  pointer-events:none;
 }
-.cta-banner__media::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  z-index:0;
-  background:var(--photo-bg) center 83% / cover no-repeat;
+.cta-banner__media picture,
+.cta-banner__media img{
+  display:block;
+  width:100%;
+  height:100%;
+}
+.cta-banner__media img{
+  object-fit:cover;
+  object-position:center 83%;
   filter:var(--site-photo-filter);
   transform:scale(1.02);
-  pointer-events:none;
 }
 .cta-banner__overlay{
   position:absolute;
@@ -3851,7 +3785,8 @@ textarea:focus-visible{
   display:grid;
   grid-template-columns:minmax(0, 1.05fr) minmax(0, 0.95fr);
   gap:clamp(32px, 5vw, 64px);
-  align-items:center;
+  /* Térkép alja egy síkban a jobb oldali lista (Facebook) aljával */
+  align-items:stretch;
 }
 .contact-block__map{
   position:relative;
@@ -3859,8 +3794,9 @@ textarea:focus-visible{
   overflow:hidden;
   border:1px solid var(--line);
   background:var(--cream-soft);
-  min-height:320px;
-  aspect-ratio:4 / 3;
+  min-height:280px;
+  height:100%;
+  align-self:stretch;
 }
 .contact-block__map iframe{
   position:absolute;
@@ -3871,8 +3807,51 @@ textarea:focus-visible{
   display:block;
   filter:grayscale(.15) contrast(1.02);
 }
+.contact-block__map-facade{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  margin:0;
+  padding:24px;
+  border:0;
+  cursor:default;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  text-align:center;
+  color:var(--ink);
+  background:
+    linear-gradient(165deg, rgba(242,236,229,.92) 0%, rgba(255,253,250,.88) 55%, rgba(232,224,214,.94) 100%);
+  font-family:var(--font-display);
+}
+.contact-block__map-facade-pin{
+  display:flex;
+  color:var(--why-taupe-deep);
+}
+.contact-block__map-facade-label{
+  font-size:13px;
+  font-weight:600;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+.contact-block__map-facade-addr{
+  font-size:14px;
+  font-weight:400;
+  color:var(--ink-muted);
+  letter-spacing:0;
+  text-transform:none;
+}
+.contact-block__map.is-loaded .contact-block__map-facade{
+  display:none;
+}
 .contact-block__info{
   min-width:0;
+  display:flex;
+  flex-direction:column;
+  height:100%;
 }
 .contact-block__title{
   font-size:var(--type-h2);
@@ -3890,6 +3869,7 @@ textarea:focus-visible{
   display:flex;
   flex-direction:column;
   gap:22px;
+  flex:1;
 }
 .contact-block__item{
   display:flex;
@@ -4003,6 +3983,30 @@ footer{
   margin:12px 0 0;
   max-width:28em;
 }
+.footer-social{
+  margin:16px 0 0;
+  display:flex;
+  gap:10px;
+}
+.footer-social__link{
+  width:40px;
+  height:40px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:6px;
+  border:1px solid var(--line);
+  background:var(--cream);
+  color:var(--ink);
+  text-decoration:none;
+  transition:background .2s ease, color .2s ease, border-color .2s ease;
+}
+.footer-social__link:hover,
+.footer-social__link:focus-visible{
+  background:var(--ink);
+  border-color:var(--ink);
+  color:var(--cream);
+}
 .footer-nav{
   display:flex;
   flex-wrap:wrap;
@@ -4104,7 +4108,9 @@ footer{
   .footer-about{
     margin-left:auto;
     margin-right:auto;
-    max-width:22em;
+  }
+  .footer-social{
+    justify-content:center;
   }
   .footer-nav{
     justify-content:center;

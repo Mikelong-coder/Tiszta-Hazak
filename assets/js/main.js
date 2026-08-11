@@ -1,14 +1,4 @@
-/* Látható viewport → --app-height (ne a böngészősáv mögötti magasság) */
-(function initAppHeight() {
-  const set = () => {
-    const h = window.visualViewport?.height || window.innerHeight;
-    document.documentElement.style.setProperty('--app-height', `${h}px`);
-  };
-  set();
-  window.addEventListener('resize', set, { passive: true });
-  window.visualViewport?.addEventListener('resize', set, { passive: true });
-  window.visualViewport?.addEventListener('scroll', set, { passive: true });
-})();
+/* --app-height: csak a főoldal head inline scriptje állítja (hero). */
 
 function initHeaderAndMenu() {
   const header = document.querySelector('.site-header');
@@ -209,20 +199,23 @@ function initHeaderAndMenu() {
 
 function initCritical() {
   initHeaderAndMenu();
-  setupFaqAccordion();
-  setupQuoteForms();
-  setupContactForms();
-  /* Előbb saját időzítés, aztán play — ne Elementor 200-as skálával induljon */
-  setupSplitSectionReveals();
   initHeroReveals();
-  initSubIntroReveals();
-  initWhySplitReveal();
-  initReveal();
   initSvcHashFocus();
   initQuoteHashNav();
 }
 
-function initDeferred() {
+function initInteractiveDeferred() {
+  setupFaqAccordion();
+  setupQuoteForms();
+  setupContactForms();
+  setupMapFacades();
+}
+
+function initVisualDeferred() {
+  setupSplitSectionReveals();
+  initSubIntroReveals();
+  initWhySplitReveal();
+  initReveal();
   setupSocialProof();
   setupStatCounters();
 }
@@ -232,14 +225,56 @@ function scheduleIdle(fn, timeout) {
     requestIdleCallback(fn, { timeout });
     return;
   }
-  window.setTimeout(fn, 1);
+  window.setTimeout(fn, Math.min(timeout, 50));
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   initCritical();
   const isMobile = window.matchMedia('(max-width: 900px)').matches;
-  scheduleIdle(initDeferred, isMobile ? 1800 : 600);
+  /* Űrlapok / FAQ hamarabb — a reveal/carousel várhat a main threaden */
+  scheduleIdle(initInteractiveDeferred, isMobile ? 500 : 200);
+  scheduleIdle(initVisualDeferred, isMobile ? 1400 : 500);
 });
+
+function setupMapFacades() {
+  document.querySelectorAll('[data-map-facade]').forEach((host) => {
+    const src = host.getAttribute('data-map-src');
+    if (!src || host.querySelector('iframe')) return;
+
+    let loading = false;
+    const load = () => {
+      if (loading || host.querySelector('iframe')) return;
+      loading = true;
+      const iframe = document.createElement('iframe');
+      iframe.src = src;
+      iframe.title = host.getAttribute('data-map-title') || 'Térkép';
+      iframe.width = '600';
+      iframe.height = '450';
+      iframe.setAttribute('loading', 'lazy');
+      iframe.setAttribute('referrerpolicy', 'no-referrer-when-downgrade');
+      iframe.allowFullscreen = true;
+      host.appendChild(iframe);
+      host.classList.add('is-loaded');
+    };
+
+    /* Görgetésre / közelítésre tölt — ne kelljen kattintani */
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          if (!entries.some((e) => e.isIntersecting)) return;
+          io.disconnect();
+          load();
+        },
+        { rootMargin: '240px 0px', threshold: 0.01 }
+      );
+      io.observe(host);
+    } else {
+      load();
+    }
+
+    host.querySelector('[data-map-load]')?.addEventListener('click', load, { once: true });
+  });
+}
 
 function setupSocialProof() {
   const root = document.querySelector('[data-social-proof]');

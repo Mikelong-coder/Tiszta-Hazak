@@ -15,6 +15,7 @@ const patterns = [
   { label: 'style.css', re: /style\.css\?v=(\d+)/g },
   { label: 'main.js', re: /main\.js\?v=(\d+)/g },
   { label: 'critical.css', re: /critical\.css\?v=(\d+)/g },
+  { label: 'fonts.css', re: /fonts\.css\?v=(\d+)/g },
 ];
 
 const sources = files.map((file) => ({

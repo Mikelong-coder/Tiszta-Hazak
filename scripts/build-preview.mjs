@@ -58,8 +58,22 @@ function injectNoindex(html) {
   return html;
 }
 
+/** Egyszerű CSS minify — kommentek + whitespace; calc()/selektor operátorok érintetlenek. */
+function minifyCss(css) {
+  return css
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    .replace(/\s+/g, ' ')
+    .replace(/\s*{\s*/g, '{')
+    .replace(/\s*}\s*/g, '}')
+    .replace(/\s*;\s*/g, ';')
+    .replace(/\s*,\s*/g, ',')
+    .replace(/;}/g, '}')
+    .trim();
+}
+
 let htmlCount = 0;
 let assetCount = 0;
+let minifiedCss = 0;
 
 function copyDir(from, to, depth = 0) {
   fs.mkdirSync(to, { recursive: true });
@@ -88,6 +102,14 @@ function copyDir(from, to, depth = 0) {
       continue;
     }
 
+    if (entry.name.toLowerCase().endsWith('.css')) {
+      const css = fs.readFileSync(src, 'utf8');
+      fs.writeFileSync(out, minifyCss(css), 'utf8');
+      minifiedCss += 1;
+      assetCount += 1;
+      continue;
+    }
+
     fs.copyFileSync(src, out);
     assetCount += 1;
   }
@@ -99,7 +121,7 @@ fs.writeFileSync(path.join(dest, 'robots.txt'), PREVIEW_ROBOTS, 'utf8');
 
 console.log(`Kész: preview/`);
 console.log(`  ${htmlCount} HTML noindex jelöléssel`);
-console.log(`  ${assetCount} egyéb fájl`);
+console.log(`  ${assetCount} egyéb fájl (${minifiedCss} CSS minifikálva)`);
 console.log(`  robots.txt: minden kereső letiltva`);
 console.log('');
 console.log('Feltöltés: a preview/ mappa TARTALMÁT tedd a szerverre.');
