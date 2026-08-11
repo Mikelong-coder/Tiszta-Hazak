@@ -221,6 +221,34 @@ function initCritical() {
 function initDeferred() {
   setupSocialProof();
   setupStatCounters();
+  setupMapFacades();
+}
+
+/* Click-to-load — Google Maps csak felhasználói kattintásra (PageSpeed-barát) */
+function setupMapFacades() {
+  document.querySelectorAll('[data-map-facade]').forEach((host) => {
+    const src = host.getAttribute('data-map-src');
+    const btn = host.querySelector('[data-map-load]');
+    if (!src || !btn || host.querySelector('iframe')) return;
+
+    btn.addEventListener(
+      'click',
+      () => {
+        if (host.querySelector('iframe')) return;
+        const iframe = document.createElement('iframe');
+        iframe.src = src;
+        iframe.title = host.getAttribute('data-map-title') || 'Térkép';
+        iframe.width = '600';
+        iframe.height = '450';
+        iframe.setAttribute('loading', 'lazy');
+        iframe.setAttribute('referrerpolicy', 'no-referrer-when-downgrade');
+        iframe.allowFullscreen = true;
+        host.appendChild(iframe);
+        host.classList.add('is-loaded');
+      },
+      { once: true }
+    );
+  });
 }
 
 function scheduleIdle(fn, timeout) {
