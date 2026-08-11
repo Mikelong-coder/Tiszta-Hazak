@@ -164,6 +164,17 @@ body:has(.hero) .site-header:not(.is-solid) .logo-img{
   letter-spacing:.08em;text-transform:uppercase;
   color:#fff;
 }
+/* FOUC: a szolgáltatás-lista rejtve marad, amíg a style.css megérkezik */
+.nav-dd{position:relative;}
+.nav-dd__menu{
+  position:absolute;
+  left:0;top:100%;
+  margin:0;padding:0;
+  list-style:none;
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+}
 .nav-cta{display:flex;align-items:center;gap:18px;}
 .phone{
   font-family:var(--font-display);font-weight:600;font-size:13px;
