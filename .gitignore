@@ -8,6 +8,8 @@ Thumbs.db
 # Tooling / temp (never deploy)
 .tools/
 .tmp-*/
+dist/
+preview/
 node_modules/
 package-lock.json
 package.json
