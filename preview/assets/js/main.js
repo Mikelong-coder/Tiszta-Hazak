@@ -204,6 +204,20 @@ function initHeaderAndMenu() {
   });
 }
 
+function initCritical() {
+  initHeaderAndMenu();
+  setupFaqAccordion();
+  setupQuoteForms();
+  setupContactForms();
+  setupSplitSectionReveals();
+  initHeroReveals();
+  initSubIntroReveals();
+  initWhySplitReveal();
+  initReveal();
+  initSvcHashFocus();
+  initQuoteHashNav();
+}
+
 function initDeferred() {
   setupSocialProof();
   setupStatCounters();
@@ -218,44 +232,10 @@ function scheduleIdle(fn, timeout) {
   window.setTimeout(fn, 1);
 }
 
-function yieldToMain() {
-  return new Promise((resolve) => {
-    setTimeout(resolve, 0);
-  });
-}
-
-/* Lépésenként yield — a nagy sync init szétveri a mobil TBT-t */
 document.addEventListener('DOMContentLoaded', () => {
-  const steps = [
-    () => initHeaderAndMenu(),
-    () => {
-      setupSplitSectionReveals();
-      initHeroReveals();
-      initSubIntroReveals();
-    },
-    () => {
-      initWhySplitReveal();
-      initReveal();
-    },
-    () => {
-      setupFaqAccordion();
-      setupQuoteForms();
-      setupContactForms();
-    },
-    () => {
-      initSvcHashFocus();
-      initQuoteHashNav();
-    },
-  ];
-
-  (async () => {
-    for (const step of steps) {
-      step();
-      await yieldToMain();
-    }
-    const isMobile = window.matchMedia('(max-width: 900px)').matches;
-    scheduleIdle(initDeferred, isMobile ? 1800 : 600);
-  })();
+  initCritical();
+  const isMobile = window.matchMedia('(max-width: 900px)').matches;
+  scheduleIdle(initDeferred, isMobile ? 1800 : 600);
 });
 
 /* Csak kattintásra — görgetéskor a Google Maps szétveri a mobil PageSpeed TBT-t */

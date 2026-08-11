@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="hu">
 <head>
 <meta charset="UTF-8">
@@ -26,17 +26,17 @@
 <link rel="icon" href="favicon.png" type="image/png">
 <link rel="preload" href="assets/fonts/montserrat-latin-300-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/montserrat-latin-ext-300-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" as="image" href="assets/images/hero-mobile-640w-opt.webp" fetchpriority="high"
-  imagesrcset="assets/images/hero-mobile-640w-opt.webp 640w, assets/images/hero-mobile-960w-opt.webp 960w"
+<link rel="preload" as="image" href="assets/images/hero-mobile-640w-opt.avif" fetchpriority="high" type="image/avif"
+  imagesrcset="assets/images/hero-mobile-640w-opt.avif 640w, assets/images/hero-mobile-960w-opt.avif 960w"
   imagesizes="100vw"
   media="(max-width: 900px)">
 <link rel="preload" as="image" href="assets/images/hero-640w.webp" fetchpriority="high"
   imagesrcset="assets/images/hero-640w.webp 640w, assets/images/hero-960w.webp 960w, assets/images/hero-1280w.webp 1280w, assets/images/hero.webp 1920w"
   imagesizes="100vw"
   media="(min-width: 901px)">
-<link rel="stylesheet" href="assets/css/critical.css?v=180">
-<link rel="preload" href="assets/css/style.css?v=219" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="assets/css/style.css?v=219"></noscript>
+<link rel="stylesheet" href="assets/css/critical.css?v=183">
+<link rel="preload" href="assets/css/style.css?v=222" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="assets/css/style.css?v=222"></noscript>
 <noscript><style>[data-reveal]{opacity:1!important;transform:none!important}</style></noscript>
 </head>
 <body>
@@ -46,7 +46,7 @@
 <header class="site-header">
   <div class="nav">
     <a class="logo-link" href="index.html" aria-label="Tiszta Házak Kft. főoldal">
-      <img class="logo-img" src="assets/images/logo.png" alt="" width="360" height="240" decoding="async">
+      <img class="logo-img" src="assets/images/logo.webp" alt="" width="360" height="240" decoding="async">
     </a>
         <nav class="nav-links" aria-label="Főmenü">
       <div class="nav-dd">
@@ -121,6 +121,12 @@
     <picture>
       <source
         media="(max-width:900px)"
+        type="image/avif"
+        srcset="assets/images/hero-mobile-640w-opt.avif 640w, assets/images/hero-mobile-960w-opt.avif 960w"
+        sizes="100vw">
+      <source
+        media="(max-width:900px)"
+        type="image/webp"
         srcset="assets/images/hero-mobile-640w-opt.webp 640w, assets/images/hero-mobile-960w-opt.webp 960w"
         sizes="100vw">
       <img
@@ -626,7 +632,7 @@
     <div class="footer-main">
       <div class="footer-brand">
         <a class="logo-link logo-link--footer" href="index.html" aria-label="Tiszta Házak Kft. főoldal">
-          <img class="logo-img logo-img--footer" src="assets/images/logo.png" alt="" width="360" height="240" decoding="async">
+          <img class="logo-img logo-img--footer" src="assets/images/logo.webp" alt="" width="360" height="240" decoding="async">
         </a>
         <p class="footer-about">Professzionális takarítás Budapesten és környékén.</p>
         <p class="footer-social">
@@ -752,6 +758,6 @@
   ]
 }
 </script>
-<script src="assets/js/main.js?v=209" defer></script>
+<script src="assets/js/main.js?v=212" defer></script>
 </body>
 </html>
