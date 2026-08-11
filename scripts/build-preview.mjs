@@ -34,7 +34,7 @@ const SKIP = new Set([
 ]);
 
 /** Nem hivatkozott / forrás kép — ne menjen a feltöltendő csomagba (MB-ok). */
-const SKIP_IMAGE = /^(hero-cleaning-|about(\.|-)|logo-full\.|logo-icon\.|why\.jpg$|gabriella\.jpg$|cta-woman-relax\.webp$|cta-woman-relax-960w\.webp$)/i;
+const SKIP_IMAGE = /^(hero-cleaning-|about(\.|-)|logo-full\.|logo-icon\.|why\.jpg$|gabriella\.jpg$|cta-woman-relax\.webp$|cta-woman-relax-960w\.webp$|.*\.tmp\.webp$|hero-mobile-\d+w\.webp$)/i;
 
 const NOINDEX = '<meta name="robots" content="noindex, nofollow">';
 
