@@ -33,6 +33,9 @@ const SKIP = new Set([
   'sitemap.xml',
 ]);
 
+/** Nem hivatkozott / forrás kép — ne menjen a feltöltendő csomagba (MB-ok). */
+const SKIP_IMAGE = /^(hero-cleaning-|about(\.|-)|logo-full\.|logo-icon\.|why\.jpg$|gabriella\.jpg$|cta-woman-relax\.webp$|cta-woman-relax-960w\.webp$)/i;
+
 const NOINDEX = '<meta name="robots" content="noindex, nofollow">';
 
 const PREVIEW_ROBOTS = `# Bemutató változat — a keresők ne indexeljék.
@@ -73,6 +76,9 @@ function copyDir(from, to, depth = 0) {
       copyDir(src, out, depth + 1);
       continue;
     }
+
+    /* Felesleges képek kihagyása (nem hivatkozott hero-változatok, forrás PNG-k). */
+    if (from.endsWith(`${path.sep}images`) && SKIP_IMAGE.test(entry.name)) continue;
 
     if (entry.name.toLowerCase().endsWith('.html')) {
       /* Kifejezett UTF-8 be- és kiolvasás, hogy az ékezetek ne sérüljenek. */

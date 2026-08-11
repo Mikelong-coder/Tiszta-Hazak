@@ -14,6 +14,7 @@ const files = fs.readdirSync(root).filter((f) => f.endsWith('.html'));
 const patterns = [
   { label: 'style.css', re: /style\.css\?v=(\d+)/g },
   { label: 'main.js', re: /main\.js\?v=(\d+)/g },
+  { label: 'critical.css', re: /critical\.css\?v=(\d+)/g },
 ];
 
 const sources = files.map((file) => ({

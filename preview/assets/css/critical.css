@@ -299,7 +299,6 @@ main > section:not(.hero){position:relative;z-index:2;}
 
 .hero [data-reveal]{
   opacity:0;
-  will-change:opacity,transform;
   transition:
     opacity var(--reveal-duration) var(--ease-reveal),
     transform var(--reveal-duration) var(--ease-reveal);

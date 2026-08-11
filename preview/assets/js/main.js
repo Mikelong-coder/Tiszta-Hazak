@@ -522,6 +522,12 @@ function setupQuoteForms() {
       }
 
       const data = new FormData(form);
+      /* Honeypot: robot kitölti → csendes kilépés, sikeresnek tűnik */
+      if (String(data.get('_trap') || '').trim()) {
+        form.reset();
+        setFormStatus(form, 'success', 'Köszönjük! Ajánlatkérését megkaptuk — 24 órán belül jelentkezünk.');
+        return;
+      }
       const name = String(data.get('name') || '');
       const email = String(data.get('email') || '');
       const phone = String(data.get('phone') || '');
@@ -541,7 +547,7 @@ function setupQuoteForms() {
           setFormStatus(
             form,
             'success',
-            'Köszönjük! Ajánlatkérését megkaptuk — 24 órán belül jelentkezünk.'
+            'Köszönjük! Ajánlatkérését elküldtük — 24 órán belül jelentkezünk.'
           );
         } catch (_) {
           setFormStatus(
@@ -577,6 +583,11 @@ function setupContactForms() {
       }
 
       const data = new FormData(form);
+      if (String(data.get('_trap') || '').trim()) {
+        form.reset();
+        setFormStatus(form, 'success', 'Köszönjük! Üzenetét megkaptuk — hamarosan válaszolunk.');
+        return;
+      }
       const name = String(data.get('name') || '');
       const email = String(data.get('email') || '');
       const phone = String(data.get('phone') || '');
@@ -595,7 +606,7 @@ function setupContactForms() {
           setFormStatus(
             form,
             'success',
-            'Köszönjük! Üzenetét megkaptuk — hamarosan válaszolunk.'
+            'Köszönjük! Üzenetét elküldtük — hamarosan válaszolunk.'
           );
         } catch (_) {
           setFormStatus(

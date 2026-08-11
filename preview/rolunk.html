@@ -20,7 +20,8 @@
 <link rel="icon" href="favicon.png" type="image/png">
 <link rel="preload" href="assets/fonts/montserrat-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/montserrat-latin-ext-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/style.css?v=188">
+<link rel="stylesheet" href="assets/css/style.css?v=203">
+<noscript><style>[data-reveal]{opacity:1!important;transform:none!important}</style></noscript>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -39,7 +40,7 @@
 <header class="site-header is-solid">
   <div class="nav">
     <a class="logo-link" href="index.html" aria-label="Tiszta Házak Kft. főoldal">
-      <img class="logo-img" src="assets/images/logo.png" alt="" width="180" height="180" decoding="async">
+      <img class="logo-img" src="assets/images/logo.png" alt="" width="360" height="240" decoding="async">
     </a>
         <nav class="nav-links" aria-label="Főmenü">
       <div class="nav-dd">
@@ -111,20 +112,16 @@
 
 <section class="about-meet" aria-labelledby="about-story-title">
   <div class="wrap about-meet__inner">
+    <nav class="breadcrumb" aria-label="Morzsaút"><a href="index.html">Főoldal</a> · Rólunk</nav>
     <div class="about-meet__head">
       <figure class="about-meet__photo" data-reveal="fade" data-reveal-delay="200">
-        <!-- Éles portré: cseréld az img-re, a placeholder class-t vedd le -->
-        <div class="about-meet__photo-ph" role="img" aria-label="Gabriella portréfotója - hamarosan">
-          <span class="about-meet__photo-initial" aria-hidden="true">G</span>
-          <span class="about-meet__photo-hint">Fotó hamarosan</span>
-        </div>
-        <!--
-        <img src="assets/images/gabriella.webp" alt="Gabriella, a Tiszta Házak Kft. ügyvezetője" width="400" height="400" loading="eager" decoding="async">
-        -->
+        <img class="about-meet__photo-img" src="assets/images/gabriella.webp" alt="Gabriella, a Tiszta Házak Kft. ügyvezetője" width="381" height="400" loading="eager" decoding="async" fetchpriority="high">
       </figure>
-      <p class="about-meet__eyebrow" data-reveal="fade" data-reveal-delay="250"><span aria-hidden="true">★ </span>Ügyvezetői üdvözlet</p>
-      <h1 id="about-story-title" data-reveal="fade" data-reveal-delay="400">Ismerje meg Gabriellát</h1>
-      <p class="about-meet__lead" data-reveal="fade" data-reveal-delay="500">Köszönöm az érdeklődését. Engedje meg, hogy ügyvezetőként személyesen mutatkozzam be - a gyakorlat, ami mögöttünk áll, és amit Önnek kínálunk.</p>
+      <div class="about-meet__intro">
+        <p class="about-meet__eyebrow" data-reveal="fade" data-reveal-delay="250"><span aria-hidden="true">★</span>Ügyvezetői üdvözlet</p>
+        <h1 id="about-story-title" data-reveal="fade" data-reveal-delay="400">Ismerje meg Gabriellát</h1>
+        <p class="about-meet__lead" data-reveal="fade" data-reveal-delay="500">Köszönöm az érdeklődését. Engedje meg, hogy ügyvezetőként személyesen mutatkozzam be - a gyakorlat, ami mögöttünk áll, és amit Önnek kínálunk.</p>
+      </div>
     </div>
 
     <div class="about-meet__body">
@@ -132,11 +129,11 @@
       <p data-reveal="fade" data-reveal-delay="800">2013 óta dolgozom csoportvezetőként. Multinacionális környezetben tettem szert szakmai tudásra, ahol a tökéletesség alapfeltétel volt: a legnagyobb projektem során 27 fős csapatot irányítottam 5 helyszínen; a legnagyobb egybefüggő területen - az ExxonMobil tisztaságáért felelős cégnél - pedig 11 ember munkájáért feleltem nap mint nap.</p>
       <p data-reveal="fade" data-reveal-delay="950">Mióta a Tiszta Házak Kft. élére álltam, egyértelmű cél vezérel: a multiknál megszerzett szigorú rendszerszemléletet és szakmai szigorúságot átültetni egy közvetlenebb, rugalmasabb és sokkal személyesebb szolgáltatásba.</p>
       <p data-reveal="fade" data-reveal-delay="1100">Az évek alatt egy valóban megbízható, leinformálható és alapos csapatot gyűjtöttem magam köré. Nem szalagmunkát végzünk: személyesen figyelek minden részletre, mert hiszem, hogy a tisztaság nemcsak esztétika, hanem a bizalom kérdése is. Nálunk az Ön otthona vagy irodája olyan odafigyelést kap, mintha a sajátunk lenne.</p>
-      <p class="about-meet__more" data-reveal="fade" data-reveal-delay="1200"><a href="szolgaltatasok.html">Szolgáltatások és irányárak →</a></p>
+      <p class="about-meet__more" data-reveal="fade" data-reveal-delay="1200"><a href="szolgaltatasok.html">Szolgáltatásaink →</a> · <a href="araink.html">Irányárak →</a></p>
     </div>
 
     <div class="about-meet__stats stats-row stats-row--director" aria-labelledby="about-stats-title">
-      <p class="stats-row__eyebrow" id="about-stats-title" data-reveal="fade" data-reveal-delay="200"><span aria-hidden="true">★ </span>Ügyvezetőnk mögött</p>
+      <p class="stats-row__eyebrow" id="about-stats-title" data-reveal="fade" data-reveal-delay="200"><span aria-hidden="true">★</span>Ügyvezetőnk mögött</p>
       <div class="stats-row__grid">
         <div class="stat-item" data-reveal="fade" data-reveal-delay="300">
           <p class="stat-item__value"><span class="stat-item__count" data-count-target="20" data-count-suffix="+">0</span></p>
@@ -158,7 +155,7 @@
 <section class="about-pillars" aria-labelledby="pillars-title">
   <div class="wrap">
     <div class="section-head section-head--left">
-      <p class="eyebrow" data-reveal="fade" data-reveal-delay="200"><span aria-hidden="true">★ </span>Értékeink</p>
+      <p class="eyebrow" data-reveal="fade" data-reveal-delay="200"><span aria-hidden="true">★</span>Értékeink</p>
       <h2 id="pillars-title" data-reveal="fade" data-reveal-delay="400">Miért bízhat meg bennünk?</h2>
     </div>
     <ul class="about-pillars__grid about-pillars__grid--3">
@@ -201,7 +198,7 @@
     <div class="footer-main">
       <div class="footer-brand">
         <a class="logo-link logo-link--footer" href="index.html" aria-label="Tiszta Házak Kft. főoldal">
-          <img class="logo-img logo-img--footer" src="assets/images/logo.png" alt="" width="180" height="180" decoding="async">
+          <img class="logo-img logo-img--footer" src="assets/images/logo.png" alt="" width="360" height="240" decoding="async">
         </a>
         <p class="footer-about">Professzionális takarítás Budapesten és környékén.</p>
       </div>
@@ -231,6 +228,6 @@
   </div>
 </footer>
 
-<script src="assets/js/main.js?v=183" defer></script>
+<script src="assets/js/main.js?v=193" defer></script>
 </body>
 </html>
