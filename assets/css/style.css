@@ -3782,6 +3782,11 @@ textarea:focus-visible{
   /* Térkép alja egy síkban a jobb oldali lista (Facebook) aljával */
   align-items:stretch;
 }
+/* Főoldal: nincs Google Maps (makeup minta) — csak elérhetőségek */
+.contact-block--solo{
+  grid-template-columns:minmax(0, 1fr);
+  max-width:640px;
+}
 .contact-block__map{
   position:relative;
   border-radius:6px;
