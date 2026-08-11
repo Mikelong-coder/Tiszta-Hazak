@@ -433,7 +433,7 @@ function buildCookieUi() {
         <p class="cookie-banner__text" id="cookie-banner-desc">
           <span id="cookie-banner-title" class="cookie-banner__title">Sütik.</span>
           A működéshez szükségesek; a térképhez és a hirdetésekhez hozzájárulás kell.
-          <a href="cookie.html">Részletek</a>
+          <a href="cookie.html" target="_blank" rel="noopener noreferrer">Részletek</a>
         </p>
         <div class="cookie-banner__actions">
           <button type="button" class="cookie-link" data-cookie-reject>Csak szükséges</button>
@@ -490,7 +490,7 @@ function buildCookieUi() {
             </div>
           </div>
         </div>
-        <p class="cookie-modal__more"><a href="cookie.html">Süti (cookie) tájékoztató</a></p>
+        <p class="cookie-modal__more"><a href="cookie.html" target="_blank" rel="noopener noreferrer">Süti (cookie) tájékoztató</a></p>
         <div class="cookie-modal__actions">
           <button type="button" class="cookie-link" data-cookie-reject>Csak szükséges</button>
           <button type="button" class="cookie-link" data-cookie-save>Mentés</button>
