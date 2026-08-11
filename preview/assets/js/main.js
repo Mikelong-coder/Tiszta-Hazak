@@ -658,13 +658,9 @@ function playReveal(el) {
 }
 
 function initHeroReveals() {
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* Hero tartalom CSS-ben azonnal látható — csak jelöljük késznek a header pinhez */
   document.querySelectorAll('.hero [data-reveal]').forEach((el) => {
-    if (prefersReduced) {
-      el.classList.add('reveal-in');
-      return;
-    }
-    playReveal(el);
+    el.classList.add('reveal-in');
   });
 }
 
