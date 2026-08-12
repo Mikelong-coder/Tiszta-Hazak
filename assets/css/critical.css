@@ -228,7 +228,7 @@ main{background:var(--cream-soft,#F2ECE5);}
 }
 .hero__media.is-hidden{visibility:hidden;opacity:0;}
 .hero__media picture,.hero__img{display:block;width:100%;height:100%;}
-.hero__img{object-fit:cover;object-position:68% 42%;filter:var(--site-photo-filter,none);transform:scale(1.02);transform-origin:center center;}
+.hero__img{object-fit:cover;object-position:68% 42%;}
 @media (max-width:900px){
   .hero__img{object-position:82% 20%;}
 }

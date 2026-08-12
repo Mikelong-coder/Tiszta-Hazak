@@ -1068,10 +1068,6 @@ main{
   object-fit:cover;
   /* Asztali: nő jobbra — középre igazítva jók a arányok */
   object-position:68% 42%;
-  filter:var(--site-photo-filter);
-  /* Apró scale: a filter GPU-szegélyét a overflow:hidden media levágja */
-  transform:scale(1.02);
-  transform-origin:center center;
 }
 @media (max-width:900px){
   .hero__img{
