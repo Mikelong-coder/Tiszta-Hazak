@@ -1099,15 +1099,40 @@ function playReveal(el) {
   });
 }
 
+function whenHeroImageReady() {
+  const img = document.querySelector('.hero__img');
+  if (!img) return Promise.resolve();
+  if (img.complete && img.naturalWidth > 0) return Promise.resolve();
+  return new Promise((resolve) => {
+    let done = false;
+    const finish = () => {
+      if (done) return;
+      done = true;
+      resolve();
+    };
+    img.addEventListener('load', finish, { once: true });
+    img.addEventListener('error', finish, { once: true });
+    window.setTimeout(finish, 2000);
+  });
+}
+
 function initHeroReveals() {
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  document.querySelectorAll('.hero [data-reveal]').forEach((el) => {
-    if (prefersReduced) {
-      el.classList.add('reveal-in');
-      return;
-    }
-    playReveal(el);
-  });
+  const run = () => {
+    document.querySelectorAll('.hero [data-reveal]').forEach((el) => {
+      if (prefersReduced) {
+        el.classList.add('reveal-in');
+        return;
+      }
+      playReveal(el);
+    });
+  };
+  /* Kép előbb, szöveg utána — ne a H1 villanjon be üres háttéren */
+  if (prefersReduced) {
+    run();
+    return;
+  }
+  whenHeroImageReady().then(run);
 }
 
 /* Aloldal / first-fold: saját 240ms lépésritmus */
