@@ -2639,12 +2639,18 @@ section:not(.hero){
   }
   .process-band__steps{
     grid-template-columns:repeat(3, minmax(0, 1fr));
+    gap:0;
   }
   .process-band__step{
-    padding:0 clamp(12px, 1.6vw, 20px);
+    /* Egyenlő tér a 3 pont között (ne legyen first/last 0) */
+    padding:0 clamp(14px, 1.8vw, 22px);
   }
-  .process-band__step:first-child{ padding-left:0; }
-  .process-band__step:last-child{ padding-right:0; }
+  .process-band__step:first-child{
+    padding-left:clamp(14px, 1.8vw, 22px);
+  }
+  .process-band__step:last-child{
+    padding-right:clamp(14px, 1.8vw, 22px);
+  }
   .process-band__step:not(:last-child){
     border-right:1px solid var(--line);
     border-bottom:none;
