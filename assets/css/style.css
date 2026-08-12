@@ -2575,14 +2575,30 @@ section:not(.hero){
     grid-template-columns:repeat(2, minmax(0, 1fr));
     gap:20px;
   }
+  /* Why fotó: ne legyen alacsony sáv — több látszódjon a képből */
+  .why-split__media img{
+    min-height:clamp(440px, 58vw, 560px);
+    max-height:none;
+    object-position:46% 22%;
+  }
+  /* FAQ fotó: magasabb arány + jobb vágás; teljes szélesség a wrapben */
+  .faq-split__visual{
+    width:100%;
+    max-width:none;
+    margin:0;
+    border-radius:12px;
+  }
   .faq-split__figure{
-    aspect-ratio:16 / 11;
-    min-height:280px;
-    max-height:420px;
+    aspect-ratio:4 / 3;
+    min-height:360px;
+    max-height:none;
+    border-radius:12px;
   }
   .faq-split__figure img{
     min-height:0;
-    max-height:420px;
+    max-height:none;
+    object-fit:cover;
+    object-position:center 40%;
   }
   .faq-split__card{
     left:20px;
@@ -2590,6 +2606,22 @@ section:not(.hero){
     width:auto;
     min-width:min(280px, calc(100% - 40px));
     max-width:320px;
+  }
+  /* 2 oszlop: 3. szolgáltatás középre */
+  .services-featured{
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+    max-width:none;
+    margin-inline:0;
+    gap:20px;
+  }
+  .services-featured .service-feature:last-child{
+    grid-column:1 / -1;
+    justify-self:center;
+    width:100%;
+    max-width:calc((100% - 20px) / 2);
+  }
+  .service-feature__figure{
+    aspect-ratio:3 / 2;
   }
   .hero h1{
     font-size:clamp(2.45rem, 5.8vw, 3.15rem);
@@ -2744,14 +2776,6 @@ section{
     grid-template-columns:1fr;
     max-width:480px;
     margin-inline:auto;
-  }
-}
-@media (min-width:641px) and (max-width:767px){
-  .services-featured{
-    grid-template-columns:repeat(2, minmax(0, 1fr));
-    max-width:none;
-    margin-inline:0;
-    gap:20px;
   }
 }
 
@@ -3449,7 +3473,7 @@ textarea:focus-visible{
   color:#fff;
   text-decoration:underline;
 }
-@media (max-width:900px){
+@media (max-width:640px){
   .why-split{
     grid-template-columns:1fr;
     min-height:auto;
@@ -3465,6 +3489,25 @@ textarea:focus-visible{
   .why-split__media img{
     min-height:280px;
     max-height:360px;
+  }
+}
+@media (min-width:641px) and (max-width:900px){
+  .why-split{
+    grid-template-columns:1fr;
+    min-height:auto;
+  }
+  .why-split__panel{
+    order:1;
+    padding:56px 32px;
+  }
+  .why-split__media{
+    order:2;
+    min-height:0;
+  }
+  .why-split__media img{
+    min-height:clamp(440px, 58vw, 560px);
+    max-height:none;
+    object-position:46% 22%;
   }
 }
 
