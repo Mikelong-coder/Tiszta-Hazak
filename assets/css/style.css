@@ -88,9 +88,6 @@ img{
   max-width:100%;
   display:block;
   height:auto;
-}
-/* Hero filter csak .hero__img-en (criticalben is) — a globális img filter újraalkalmazása ugrást okozhat */
-img:not(.hero__img){
   filter:var(--site-photo-filter);
 }
 
@@ -1011,9 +1008,10 @@ main{
 .hero{
   position:relative;
   z-index:1;
+  /* --app-height = látható magasság (JS, visualViewport) */
   min-height:100vh;
   min-height:100svh;
-  min-height:100dvh;
+  min-height:var(--app-height, 100svh);
   display:flex;
   flex-direction:column;
   justify-content:center;
@@ -1021,15 +1019,16 @@ main{
   padding:var(--header-h) 0 max(24px, env(safe-area-inset-bottom));
   background:transparent;
   color:#fff;
-  overflow:hidden;
+  overflow-x:clip;
+  overflow-y:visible;
   box-sizing:border-box;
 }
-/* Fix háttérkép — egyszerű viewport kitöltés (nincs bleed / app-height) */
 .hero__media{
   position:fixed;
   inset:0;
   width:100%;
   height:100%;
+  height:var(--app-height, 100%);
   z-index:0;
   overflow:hidden;
   pointer-events:none;
@@ -1048,13 +1047,13 @@ main{
 }
 .hero__img{
   object-fit:cover;
-  /* Mobil-first: ne legyen 68%→82% ugrás, amíg a media query „beér” */
-  object-position:82% 20%;
-  filter:var(--site-photo-filter);
+  /* Asztali: nő jobbra — középre igazítva jók a arányok */
+  object-position:68% 42%;
 }
-@media (min-width:901px){
+@media (max-width:900px){
   .hero__img{
-    object-position:68% 42%;
+    /* Telefon: arc/felsőtest — közel az F12 device frame cropjához */
+    object-position:82% 20%;
   }
 }
 .hero-overlay{
