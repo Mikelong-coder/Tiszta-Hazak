@@ -1031,16 +1031,17 @@ main{
   overflow-y:visible;
   box-sizing:border-box;
 }
-/* Fix háttérkép — a következő szekció fölé görget */
+/* Fix háttérkép — a következő szekció fölé görget.
+   Felül ~12px bleed: a címsor alá nyúlik, eltakarja a 1px világos rést (score-biztos). */
 .hero__media{
   position:fixed;
-  top:-2px;
+  top:-12px;
   right:0;
   bottom:auto;
   left:0;
   width:100%;
-  height:calc(100% + 2px);
-  height:calc(var(--app-height, 100%) + 2px);
+  height:calc(100% + 12px);
+  height:calc(var(--app-height, 100%) + 12px);
   z-index:0;
   overflow:hidden;
   pointer-events:none;

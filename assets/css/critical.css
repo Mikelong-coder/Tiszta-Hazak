@@ -220,8 +220,8 @@ main{background:var(--cream-soft,#F2ECE5);}
   box-sizing:border-box;
 }
 .hero__media{
-  position:fixed;top:-2px;right:0;bottom:auto;left:0;width:100%;
-  height:calc(100% + 2px);height:calc(var(--app-height,100%) + 2px);
+  position:fixed;top:-12px;right:0;bottom:auto;left:0;width:100%;
+  height:calc(100% + 12px);height:calc(var(--app-height,100%) + 12px);
   z-index:0;overflow:hidden;pointer-events:none;background:var(--ink,#050505);
 }
 .hero__media.is-hidden{visibility:hidden;opacity:0;}
