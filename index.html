@@ -4,30 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>
-/* --app-height: egyszer (vagy forgatáskor) mérünk.
-   Görgetéskor NEM frissítjük — Chrome/Safari címsor eltűnésekor különben a hero kép „nőne”. */
-(function () {
-  var lastW = window.innerWidth;
-  function measure() {
-    return (window.visualViewport && window.visualViewport.height) || window.innerHeight;
-  }
-  function set(h) {
-    document.documentElement.style.setProperty('--app-height', h + 'px');
-  }
-  set(measure());
-  function onResize() {
-    var w = window.innerWidth;
-    /* Mobil: csak szélességváltás / forgatás. Asztal: bármely ablakméret. */
-    if (w <= 900 && w === lastW) return;
-    lastW = w;
-    set(measure());
-  }
-  window.addEventListener('resize', onResize, { passive: true });
-  window.addEventListener('orientationchange', function () {
-    lastW = -1;
-    setTimeout(onResize, 150);
-  }, { passive: true });
-})();
 /* Makeup-minta: ne állítsa vissza a korábbi görgetési pozíciót (lazy map / LCP) */
 (function(){if(window.location.hash)return;if('scrollRestoration' in history)history.scrollRestoration='manual';window.scrollTo(0,0)})();
 </script>
@@ -54,9 +30,9 @@
   imagesrcset="assets/images/hero-640w.webp 640w, assets/images/hero-960w.webp 960w, assets/images/hero-1280w.webp 1280w, assets/images/hero.webp 1920w"
   imagesizes="100vw"
   media="(min-width: 901px)">
-<link rel="stylesheet" href="assets/css/critical.css?v=225">
-<link rel="preload" href="assets/css/style.css?v=269" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="assets/css/style.css?v=269"></noscript>
+<link rel="stylesheet" href="assets/css/critical.css?v=226">
+<link rel="preload" href="assets/css/style.css?v=270" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="assets/css/style.css?v=270"></noscript>
 <meta name="fonts-css" content="assets/css/fonts.css?v=46">
 <script>
 /* MakeUp 100-minta: mobilon fontok csak window.load után — ne versenyezzenek az LCP képpel.
@@ -816,6 +792,6 @@
   ]
 }
 </script>
-<script src="assets/js/main.js?v=242" defer></script>
+<script src="assets/js/main.js?v=243" defer></script>
 </body>
 </html>

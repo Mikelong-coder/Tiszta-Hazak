@@ -1,4 +1,4 @@
-/* --app-height: csak a főoldal head inline scriptje állítja (hero). */
+/* Hero magasság: CSS svh/dvh — nincs --app-height JS. */
 
 function initHeaderAndMenu() {
   const header = document.querySelector('.site-header');

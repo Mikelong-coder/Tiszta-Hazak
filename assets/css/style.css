@@ -1001,18 +1001,7 @@ body.menu-open{ overflow:hidden; }
   }
 }
 
-/* ---------- HERO (mobile-first) — pinned media, makeup-szerű ---------- */
-/*
- * Body világos: a fix hero mögött a kép adja a sötétet.
- * Ha body ink (#050505), a szekciók közti 1px rés „fekete vonalként” látszik.
- * html sötét: a címsor és a hero közötti 1px „élénk csík” (cream) ne látszódjon.
- */
-/*
- * Body/html: a viewport tetején lévő 1px rés NE cream legyen (az élénk csík).
- * A main marad cream — így a szekciók közötti rés nem fekete.
- * .hero overflow:visible — a overflow-x:clip fixed containing blockot csinál,
- * és levágja a media bleedjét (ezért nem hatott a -12px).
- */
+/* ---------- HERO (mobile-first) — pinned media ---------- */
 html:has(.hero){
   background:#1F1915;
 }
@@ -1025,10 +1014,9 @@ main{
 .hero{
   position:relative;
   z-index:1;
-  /* --app-height = kezdő látható magasság (JS, görgetéskor fix) */
   min-height:100vh;
   min-height:100svh;
-  min-height:var(--app-height, 100svh);
+  min-height:100dvh;
   display:flex;
   flex-direction:column;
   justify-content:center;
@@ -1036,20 +1024,15 @@ main{
   padding:var(--header-h) 0 max(24px, env(safe-area-inset-bottom));
   background:transparent;
   color:#fff;
-  overflow:visible;
+  overflow:hidden;
   box-sizing:border-box;
 }
-/* Fix háttérkép — viewport-hoz kötve, felül bleed a címsor alá */
+/* Fix háttérkép — egyszerű viewport kitöltés (nincs bleed / app-height) */
 .hero__media{
   position:fixed;
-  right:0;
-  bottom:auto;
-  left:0;
+  inset:0;
   width:100%;
-  /* Safe area + subpixel rés a böngésző UI alatt */
-  top:calc(-1 * (12px + env(safe-area-inset-top, 0px)));
-  height:calc(100% + 12px + env(safe-area-inset-top, 0px));
-  height:calc(var(--app-height, 100%) + 12px + env(safe-area-inset-top, 0px));
+  height:100%;
   z-index:0;
   overflow:hidden;
   pointer-events:none;
@@ -1058,7 +1041,6 @@ main{
 .hero__media.is-hidden{
   visibility:hidden;
   opacity:0;
-  /* Ne maradjon a compositor rétegen (mobil rés / hairline) */
   display:none;
 }
 .hero__media picture,
@@ -1374,6 +1356,7 @@ section:not(.hero){
   /* Kevesebb mozgás: ne legyen pinned háttér */
   .hero__media{
     position:absolute;
+    inset:0;
     height:100%;
   }
 }
