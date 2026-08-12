@@ -835,7 +835,7 @@ body.header-solid .menu-fab__bar{
   justify-content:center;
   width:44px;
   height:44px;
-  margin:14px auto 0;
+  margin:16px auto 0;
   border:1px solid var(--line);
   border-radius:4px;
   color:var(--ink);
@@ -856,7 +856,7 @@ body.header-solid .menu-fab__bar{
   height:20px;
 }
 .menu-sheet.is-open .menu-sheet__social{
-  animation:menu-link-in .45s cubic-bezier(.22,1,.36,1) .28s both;
+  animation:menu-link-in .45s cubic-bezier(.22,1,.36,1) .36s both;
 }
 .menu-sheet__actions{
   margin-top:18px;
@@ -1002,7 +1002,11 @@ body.menu-open{ overflow:hidden; }
 /*
  * Body világos: a fix hero mögött a kép adja a sötétet.
  * Ha body ink (#050505), a szekciók közti 1px rés „fekete vonalként” látszik.
+ * html sötét: a címsor és a hero közötti 1px „élénk csík” (cream) ne látszódjon.
  */
+html:has(.hero){
+  background:#1F1915;
+}
 body:has(.hero){
   background:var(--cream-soft);
 }
@@ -1030,10 +1034,13 @@ main{
 /* Fix háttérkép — a következő szekció fölé görget */
 .hero__media{
   position:fixed;
-  inset:0;
+  top:-2px;
+  right:0;
+  bottom:auto;
+  left:0;
   width:100%;
-  height:100%;
-  height:var(--app-height, 100%);
+  height:calc(100% + 2px);
+  height:calc(var(--app-height, 100%) + 2px);
   z-index:0;
   overflow:hidden;
   pointer-events:none;
