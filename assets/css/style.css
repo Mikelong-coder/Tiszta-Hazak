@@ -1002,11 +1002,8 @@ body.menu-open{ overflow:hidden; }
 }
 
 /* ---------- HERO (mobile-first) — pinned media ---------- */
-html:has(.hero){
-  background:#1F1915;
-}
 body:has(.hero){
-  background:#1F1915;
+  background:var(--cream-soft);
 }
 main{
   background:var(--cream-soft);
@@ -1053,7 +1050,7 @@ main{
   object-fit:cover;
   /* Mobil-first: ne legyen 68%→82% ugrás, amíg a media query „beér” */
   object-position:82% 20%;
-  filter:none;
+  filter:var(--site-photo-filter);
 }
 @media (min-width:901px){
   .hero__img{
@@ -1064,7 +1061,7 @@ main{
   position:absolute;
   inset:0;
   z-index:1;
-  background:rgba(31,25,21,.42);
+  background:rgba(31,25,21,.32);
   pointer-events:none;
 }
 /* Következő szekciók a fix kép fölé csúsznak */

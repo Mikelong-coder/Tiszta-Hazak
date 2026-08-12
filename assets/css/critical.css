@@ -207,8 +207,7 @@ body:has(.hero) .site-header:not(.is-solid) .logo-img{
 .menu-fab__bar--top{top:3px;}
 .menu-fab__bar--bottom{top:9.5px;width:14px;}
 
-html:has(.hero){background:#1F1915;}
-body:has(.hero){background:#1F1915;}
+body:has(.hero){background:var(--cream-soft,#F2ECE5);}
 main{background:var(--cream-soft,#F2ECE5);}
 .hero{
   position:relative;z-index:1;
@@ -230,16 +229,14 @@ main{background:var(--cream-soft,#F2ECE5);}
 .hero__img{
   object-fit:cover;
   object-position:82% 20%;
-  /* Nincs CSS filter a herón — mobilon GPU-réteg / fél cm ugrás betöltéskor */
-  filter:none;
+  filter:var(--site-photo-filter);
 }
 @media (min-width:901px){
   .hero__img{object-position:68% 42%;}
 }
 .hero-overlay{
   position:absolute;inset:0;z-index:1;
-  /* Kicsit sötétebb: pótolja a levett photo-filtert */
-  background:rgba(31,25,21,.42);
+  background:rgba(31,25,21,.32);
   pointer-events:none;
 }
 .hero-sentinel{
