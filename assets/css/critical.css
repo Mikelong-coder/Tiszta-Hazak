@@ -237,7 +237,7 @@ main{background:var(--cream-soft,#F2ECE5);}
   filter:var(--site-photo-filter);
 }
 @media (max-width:900px){
-  .hero__img{object-position:82% 20%;}
+  .hero__img{object-position:86% 20%;}
 }
 .hero-overlay{
   position:absolute;inset:0;z-index:1;
