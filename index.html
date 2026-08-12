@@ -49,16 +49,14 @@
 <meta name="twitter:description" content="Lakás- és irodatakarítás Budapesten. Megbízható csapat, átlátható irányárak, ingyenes árajánlat.">
 <link rel="icon" href="favicon.png" type="image/png">
 <link rel="preload" as="image" href="assets/images/hero-mobile-960w-opt.webp" fetchpriority="high" type="image/webp"
-  imagesrcset="assets/images/hero-mobile-640w-opt.webp 640w, assets/images/hero-mobile-960w-opt.webp 960w"
-  imagesizes="100vw"
   media="(max-width: 900px)">
 <link rel="preload" as="image" href="assets/images/hero-640w.webp" fetchpriority="high"
   imagesrcset="assets/images/hero-640w.webp 640w, assets/images/hero-960w.webp 960w, assets/images/hero-1280w.webp 1280w, assets/images/hero.webp 1920w"
   imagesizes="100vw"
   media="(min-width: 901px)">
-<link rel="stylesheet" href="assets/css/critical.css?v=221">
-<link rel="preload" href="assets/css/style.css?v=265" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="assets/css/style.css?v=265"></noscript>
+<link rel="stylesheet" href="assets/css/critical.css?v=222">
+<link rel="preload" href="assets/css/style.css?v=266" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="assets/css/style.css?v=266"></noscript>
 <meta name="fonts-css" content="assets/css/fonts.css?v=46">
 <script>
 /* MakeUp 100-minta: mobilon fontok csak window.load után — ne versenyezzenek az LCP képpel.
@@ -173,16 +171,11 @@
   <div class="hero-sentinel" aria-hidden="true"></div>
   <div class="hero__media" aria-hidden="true">
     <picture>
-      <!-- Asztali forrás. Mobilon csak WebP (preload = img) — AVIF csere okozta a ~1s balra ugrást. -->
+      <!-- Desktop: külön srcset. Mobil: csak az img src — ne legyen 640↔960 / AVIF csere (balra ugrás). -->
       <source
         media="(min-width:901px)"
         type="image/webp"
         srcset="assets/images/hero-640w.webp 640w, assets/images/hero-960w.webp 960w, assets/images/hero-1280w.webp 1280w, assets/images/hero.webp 1920w"
-        sizes="100vw">
-      <source
-        media="(max-width:900px)"
-        type="image/webp"
-        srcset="assets/images/hero-mobile-640w-opt.webp 640w, assets/images/hero-mobile-960w-opt.webp 960w"
         sizes="100vw">
       <img
         class="hero__img"

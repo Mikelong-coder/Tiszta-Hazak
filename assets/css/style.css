@@ -88,6 +88,9 @@ img{
   max-width:100%;
   display:block;
   height:auto;
+}
+/* Hero filter csak .hero__img-en (criticalben is) — a globális img filter újraalkalmazása ugrást okozhat */
+img:not(.hero__img){
   filter:var(--site-photo-filter);
 }
 
@@ -1072,8 +1075,8 @@ main{
 }
 @media (max-width:900px){
   .hero__img{
-    /* Telefon: arc/felsőtest — pár px-szel balrébb a végleges keret */
-    object-position:86% 20%;
+    /* Telefon: arc/felsőtest — critical.css-szel azonos, ne ugorjon style.css betöltésekor */
+    object-position:82% 20%;
   }
 }
 .hero-overlay{
