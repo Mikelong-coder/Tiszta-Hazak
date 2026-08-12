@@ -4,8 +4,30 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>
-/* Látható magasság (visualViewport) — Messenger/Chrome sáv alatt is F12-szerű középre igazítás */
-(function(){function s(){var h=(window.visualViewport&&window.visualViewport.height)||window.innerHeight;document.documentElement.style.setProperty("--app-height",h+"px")}s();window.addEventListener("resize",s,{passive:true});if(window.visualViewport){window.visualViewport.addEventListener("resize",s,{passive:true});window.visualViewport.addEventListener("scroll",s,{passive:true})}})();
+/* --app-height: egyszer (vagy forgatáskor) mérünk.
+   Görgetéskor NEM frissítjük — Chrome/Safari címsor eltűnésekor különben a hero kép „nőne”. */
+(function () {
+  var lastW = window.innerWidth;
+  function measure() {
+    return (window.visualViewport && window.visualViewport.height) || window.innerHeight;
+  }
+  function set(h) {
+    document.documentElement.style.setProperty('--app-height', h + 'px');
+  }
+  set(measure());
+  function onResize() {
+    var w = window.innerWidth;
+    /* Mobil/tablet: csak szélességváltás / forgatás. Asztal: bármely ablakméret. */
+    if (w <= 900 && w === lastW) return;
+    lastW = w;
+    set(measure());
+  }
+  window.addEventListener('resize', onResize, { passive: true });
+  window.addEventListener('orientationchange', function () {
+    lastW = -1;
+    setTimeout(onResize, 150);
+  }, { passive: true });
+})();
 /* Makeup-minta: ne állítsa vissza a korábbi görgetési pozíciót (lazy map / LCP) */
 (function(){if(window.location.hash)return;if('scrollRestoration' in history)history.scrollRestoration='manual';window.scrollTo(0,0)})();
 </script>

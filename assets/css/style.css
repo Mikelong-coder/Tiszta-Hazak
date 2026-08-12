@@ -1008,7 +1008,7 @@ main{
 .hero{
   position:relative;
   z-index:1;
-  /* --app-height = látható magasság (JS, visualViewport) */
+  /* --app-height = kezdő látható magasság (JS, görgetéskor fix) */
   min-height:100vh;
   min-height:100svh;
   min-height:var(--app-height, 100svh);
