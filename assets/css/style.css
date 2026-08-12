@@ -2618,25 +2618,6 @@ section:not(.hero){
     min-width:min(280px, calc(100% - 40px));
     max-width:320px;
   }
-  /* 2+1: mind egyforma méret, a 3. csak középre */
-  .services-featured{
-    grid-template-columns:repeat(2, minmax(0, 1fr));
-    max-width:none;
-    margin-inline:0;
-    gap:20px;
-    align-items:start;
-  }
-  .services-featured .service-feature{
-    height:auto;
-  }
-  .services-featured .service-feature:last-child{
-    grid-column:1 / -1;
-    justify-self:center;
-    align-self:start;
-    width:100%;
-    max-width:calc((100% - 20px) / 2);
-    height:auto;
-  }
   .hero h1{
     font-size:clamp(2.45rem, 5.8vw, 3.15rem);
   }
@@ -2790,6 +2771,27 @@ section{
     grid-template-columns:1fr;
     max-width:480px;
     margin-inline:auto;
+  }
+}
+/* Tablet: az alap 3 oszlop UTÁN kell, különben felülíródik */
+@media (min-width:641px) and (max-width:900px){
+  .services-featured{
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+    max-width:none;
+    margin-inline:0;
+    gap:20px;
+    align-items:start;
+  }
+  .services-featured .service-feature{
+    height:auto;
+  }
+  .services-featured .service-feature:last-child{
+    grid-column:1 / -1;
+    justify-self:center;
+    align-self:start;
+    width:100%;
+    max-width:calc((100% - 20px) / 2);
+    height:auto;
   }
 }
 
