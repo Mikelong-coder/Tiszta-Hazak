@@ -2553,14 +2553,14 @@ section:not(.hero){
     object-position:center 28%;
   }
   .faq-split__card{
-    left:14px;
-    right:14px;
-    bottom:14px;
+    left:18px;
+    right:18px;
+    bottom:22px;
     min-width:0;
     width:auto;
-    padding:14px 16px;
-    gap:10px;
-    border-radius:12px;
+    padding:11px 13px;
+    gap:8px;
+    border-radius:10px;
     background:#fff;
     border:1px solid rgba(31,25,21,.08);
     box-shadow:0 8px 24px rgba(31,25,21,.12);
@@ -2568,16 +2568,16 @@ section:not(.hero){
     -webkit-backdrop-filter:none;
   }
   .faq-split__contact-row{
-    font-size:13px;
-    gap:10px;
+    font-size:12px;
+    gap:8px;
   }
   .faq-split__contact-icon{
-    width:36px;
-    height:36px;
+    width:32px;
+    height:32px;
   }
   .faq-split__contact-icon svg{
-    width:15px;
-    height:15px;
+    width:14px;
+    height:14px;
   }
 }
 
@@ -3222,6 +3222,7 @@ textarea:focus-visible{
 .why--split{
   padding:0;
   scroll-margin-top:var(--header-h);
+  background:transparent;
 }
 .why-split{
   display:grid;
@@ -3395,6 +3396,7 @@ textarea:focus-visible{
   }
   .why-split__media{
     order:2;
+    min-height:0;
   }
   .why-split__media img{
     min-height:280px;
