@@ -74,7 +74,7 @@
   --site-photo-filter: brightness(0.92) contrast(1.05) saturate(0.62) hue-rotate(8deg);
 }
 *{box-sizing:border-box;}
-html{scroll-behavior:auto;}
+html{scroll-behavior:auto;scrollbar-gutter:stable;}
 body{
   margin:0;
   background:var(--bg);
@@ -1071,11 +1071,11 @@ main{
   object-fit:cover;
   /* Asztali: nő jobbra — középre igazítva jók a arányok */
   object-position:68% 42%;
-  filter:var(--site-photo-filter);
+  /* Filter nélkül: a CSS filter GPU-rétege mobilon ~½ cm ugrást okozott decode után */
+  filter:none;
 }
 @media (max-width:900px){
   .hero__img{
-    /* Telefon: arc/felsőtest — critical.css-szel azonos, ne ugorjon style.css betöltésekor */
     object-position:82% 20%;
   }
 }
@@ -1083,7 +1083,7 @@ main{
   position:absolute;
   inset:0;
   z-index:1;
-  background:rgba(31,25,21,.32);
+  background:rgba(31,25,21,.42);
   pointer-events:none;
 }
 /* Következő szekciók a fix kép fölé csúsznak */

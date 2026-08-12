@@ -71,7 +71,7 @@
   --site-photo-filter:brightness(0.92) contrast(1.05) saturate(0.62) hue-rotate(8deg);
 }
 *{box-sizing:border-box;}
-html{scroll-behavior:auto;}
+html{scroll-behavior:auto;scrollbar-gutter:stable;}
 body{
   margin:0;
   background:var(--bg);
@@ -233,15 +233,16 @@ main{background:var(--cream-soft,#F2ECE5);}
 .hero__img{
   object-fit:cover;
   object-position:68% 42%;
-  /* Ugyanaz a filter, mint a full CSS-ben — első festéskor már a végleges look */
-  filter:var(--site-photo-filter);
+  /* Nincs CSS filter a herón — mobilon GPU-réteg / fél cm ugrás betöltéskor */
+  filter:none;
 }
 @media (max-width:900px){
   .hero__img{object-position:82% 20%;}
 }
 .hero-overlay{
   position:absolute;inset:0;z-index:1;
-  background:rgba(31,25,21,.32);
+  /* Kicsit sötétebb: pótolja a levett photo-filtert */
+  background:rgba(31,25,21,.42);
   pointer-events:none;
 }
 .hero-sentinel{
