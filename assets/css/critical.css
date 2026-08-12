@@ -303,6 +303,7 @@ main > section:not(.hero){position:relative;z-index:2;}
     transform var(--reveal-duration) var(--ease-reveal);
   transition-delay:var(--reveal-delay, 0ms);
 }
+.hero #hero-title[data-reveal]{opacity:1;}
 .hero [data-reveal="fade"]{transform:none;}
 .hero [data-reveal="left"]{transform:translate3d(var(--reveal-distance),0,0);}
 .hero [data-reveal="right"]{transform:translate3d(calc(var(--reveal-distance) * -1),0,0);}

@@ -1268,6 +1268,10 @@ section:not(.hero){
     transform var(--reveal-duration) var(--ease-reveal);
   transition-delay:var(--reveal-delay, 0ms);
 }
+/* LCP: a H1 ne legyen opacity:0 — a PSI ~1.9s element render delay-t mért rajta */
+.hero #hero-title[data-reveal]{
+  opacity:1;
+}
 .hero [data-reveal="left"]{ transform:translate3d(var(--reveal-distance), 0, 0); }
 .hero [data-reveal="right"]{ transform:translate3d(calc(var(--reveal-distance) * -1), 0, 0); }
 .hero [data-reveal="up"]{ transform:translate3d(0, var(--reveal-distance), 0); }
