@@ -206,7 +206,7 @@ body:has(.hero) .site-header:not(.is-solid) .logo-img{
 .menu-fab__bar--bottom{top:9.5px;width:14px;}
 
 html:has(.hero){background:#1F1915;}
-body:has(.hero){background:var(--cream-soft,#F2ECE5);}
+body:has(.hero){background:#1F1915;}
 main{background:var(--cream-soft,#F2ECE5);}
 .hero{
   position:relative;z-index:1;
@@ -216,12 +216,14 @@ main{background:var(--cream-soft,#F2ECE5);}
   padding:var(--header-h) 0 max(24px,env(safe-area-inset-bottom));
   background:transparent;
   color:#fff;
-  overflow-x:clip;
+  overflow:visible;
   box-sizing:border-box;
 }
 .hero__media{
-  position:fixed;top:-12px;right:0;bottom:auto;left:0;width:100%;
-  height:calc(100% + 12px);height:calc(var(--app-height,100%) + 12px);
+  position:fixed;right:0;bottom:auto;left:0;width:100%;
+  top:calc(-1 * (12px + env(safe-area-inset-top, 0px)));
+  height:calc(100% + 12px + env(safe-area-inset-top, 0px));
+  height:calc(var(--app-height,100%) + 12px + env(safe-area-inset-top, 0px));
   z-index:0;overflow:hidden;pointer-events:none;background:var(--ink,#050505);
 }
 .hero__media.is-hidden{visibility:hidden;opacity:0;}

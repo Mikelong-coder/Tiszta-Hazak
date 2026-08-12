@@ -1004,11 +1004,17 @@ body.menu-open{ overflow:hidden; }
  * Ha body ink (#050505), a szekciók közti 1px rés „fekete vonalként” látszik.
  * html sötét: a címsor és a hero közötti 1px „élénk csík” (cream) ne látszódjon.
  */
+/*
+ * Body/html: a viewport tetején lévő 1px rés NE cream legyen (az élénk csík).
+ * A main marad cream — így a szekciók közötti rés nem fekete.
+ * .hero overflow:visible — a overflow-x:clip fixed containing blockot csinál,
+ * és levágja a media bleedjét (ezért nem hatott a -12px).
+ */
 html:has(.hero){
   background:#1F1915;
 }
 body:has(.hero){
-  background:var(--cream-soft);
+  background:#1F1915;
 }
 main{
   background:var(--cream-soft);
@@ -1027,21 +1033,20 @@ main{
   padding:var(--header-h) 0 max(24px, env(safe-area-inset-bottom));
   background:transparent;
   color:#fff;
-  overflow-x:clip;
-  overflow-y:visible;
+  overflow:visible;
   box-sizing:border-box;
 }
-/* Fix háttérkép — a következő szekció fölé görget.
-   Felül ~12px bleed: a címsor alá nyúlik, eltakarja a 1px világos rést (score-biztos). */
+/* Fix háttérkép — viewport-hoz kötve, felül bleed a címsor alá */
 .hero__media{
   position:fixed;
-  top:-12px;
   right:0;
   bottom:auto;
   left:0;
   width:100%;
-  height:calc(100% + 12px);
-  height:calc(var(--app-height, 100%) + 12px);
+  /* Safe area + subpixel rés a böngésző UI alatt */
+  top:calc(-1 * (12px + env(safe-area-inset-top, 0px)));
+  height:calc(100% + 12px + env(safe-area-inset-top, 0px));
+  height:calc(var(--app-height, 100%) + 12px + env(safe-area-inset-top, 0px));
   z-index:0;
   overflow:hidden;
   pointer-events:none;
