@@ -232,12 +232,12 @@ main{background:var(--cream-soft,#F2ECE5);}
 .hero__media picture,.hero__img{display:block;width:100%;height:100%;}
 .hero__img{
   object-fit:cover;
-  object-position:68% 42%;
+  object-position:82% 20%;
   /* Nincs CSS filter a herón — mobilon GPU-réteg / fél cm ugrás betöltéskor */
   filter:none;
 }
-@media (max-width:900px){
-  .hero__img{object-position:82% 20%;}
+@media (min-width:901px){
+  .hero__img{object-position:68% 42%;}
 }
 .hero-overlay{
   position:absolute;inset:0;z-index:1;

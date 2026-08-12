@@ -1069,14 +1069,13 @@ main{
 }
 .hero__img{
   object-fit:cover;
-  /* Asztali: nő jobbra — középre igazítva jók a arányok */
-  object-position:68% 42%;
-  /* Filter nélkül: a CSS filter GPU-rétege mobilon ~½ cm ugrást okozott decode után */
+  /* Mobil-first: ne legyen 68%→82% ugrás, amíg a media query „beér” */
+  object-position:82% 20%;
   filter:none;
 }
-@media (max-width:900px){
+@media (min-width:901px){
   .hero__img{
-    object-position:82% 20%;
+    object-position:68% 42%;
   }
 }
 .hero-overlay{
