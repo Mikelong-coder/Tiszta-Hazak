@@ -92,8 +92,8 @@ img{
 }
 
 /*
- * Eyebrow / tag csillagok: a nagybetű-magasság (1cap) közepére igazítva.
- * A ★ glifa az em-boxban lejjebb ül — külön cap-magas dobozban középre tesszük.
+ * Eyebrow / tag csillagok: geometriai ★ a nagybetű-magasság közepén.
+ * (A unicode ★ glifa aszimmetrikus — mobilon/fallbacknél feljebb ül.)
  */
 .intro-band__tag,
 .stats-row__eyebrow,
@@ -132,26 +132,30 @@ img{
 .sub-intro__eyebrow [aria-hidden="true"],
 .process-band__tag-star,
 .why-split__tag-star{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
   flex-shrink:0;
   box-sizing:border-box;
-  /* Eredeti méret (szülő betűmérete), középre a nagybetű-magasságban */
-  font-size:1em;
-  height:0.7em;
-  height:1cap;
-  width:auto;
+  display:block;
+  width:0.55em;
+  height:0.55em;
   margin:0;
   padding:0;
-  line-height:1;
+  font-size:1em;
+  line-height:0;
   letter-spacing:0 !important;
+  color:inherit;
+  background-color:currentColor;
+  clip-path:polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  /* unicode ★ elrejtése — a forma a clip-path */
+  text-indent:100%;
+  white-space:nowrap;
+  overflow:hidden;
   transform:none;
+  translate:none;
   position:relative;
   top:0;
 }
 
-/* Mobil: Arial/fallback ★ feljebb ül a dobozban; → lejjebb a sorközépnél */
+/* Mobil: sor a cap-magassághoz (támogatott böngészőben) */
 @media (max-width:900px){
   .intro-band__tag,
   .stats-row__eyebrow,
@@ -165,33 +169,7 @@ img{
   .sub-intro__eyebrow,
   .process-band__tag,
   .why-split__tag{
-    /* Cap+baseline vágás ahol támogatott — flex a betűmagassághoz igazít */
     text-box:trim-both cap alphabetic;
-  }
-  .intro-band__tag [aria-hidden="true"],
-  .stats-row__eyebrow [aria-hidden="true"],
-  .section-head .eyebrow [aria-hidden="true"],
-  .social-proof__eyebrow [aria-hidden="true"],
-  .page-hero__eyebrow [aria-hidden="true"],
-  .quote-form__eyebrow [aria-hidden="true"],
-  .about-meet__eyebrow [aria-hidden="true"],
-  .svc-cards__eyebrow [aria-hidden="true"],
-  .price-sheets__eyebrow [aria-hidden="true"],
-  .sub-intro__eyebrow [aria-hidden="true"],
-  .process-band__tag-star,
-  .why-split__tag-star{
-    translate:0 0.11em;
-  }
-  .service-more::after{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    font-size:1em;
-    line-height:1;
-    height:1em;
-    height:1cap;
-    /* → glifa az alapvonalhoz ül — optikai emelés */
-    translate:0 -0.14em;
   }
 }
 
@@ -2799,7 +2777,7 @@ section{
 .service-body p{ font-size:15px; line-height:1.6; margin-bottom:14px; flex:1; color:var(--ink-soft); }
 .service-more{
   display:inline-flex;
-  align-items:center;
+  align-items:baseline;
   gap:6px;
   margin-top:auto;
   font-family:var(--font-display);
@@ -2812,11 +2790,11 @@ section{
 .service-more:hover{ color:var(--ink); text-decoration:underline; }
 .service-more::after{
   content:"→";
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
+  /* Alapvonal (padló) — ne sorközép, ne a baseline alá */
+  display:inline;
   font-size:1em;
-  line-height:1;
+  line-height:inherit;
+  vertical-align:baseline;
   transition:transform .2s ease;
 }
 .service-more:hover::after{ transform:translateX(3px); }
