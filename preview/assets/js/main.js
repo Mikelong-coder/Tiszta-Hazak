@@ -133,7 +133,7 @@ if (cookieUi) return cookieUi;const root = document.createElement('div');root.cl
 <div class="cookie-banner__inner">
 <p class="cookie-banner__text" id="cookie-banner-desc">
 <span id="cookie-banner-title" class="cookie-banner__title">Sütik.</span>
-A működéshez szükségesek; a térképhez és a hirdetésekhez hozzájárulás kell.
+Térképhez és hirdetéshez hozzájárulás kell.
 <a href="cookie.html" target="_blank" rel="noopener noreferrer">Részletek</a>
 </p>
 <div class="cookie-banner__actions">
