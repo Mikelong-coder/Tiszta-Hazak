@@ -1575,6 +1575,10 @@ section:not(.hero){
   box-sizing:border-box;
 }
 @media (max-width:640px){
+  /* Telefon: térkép ki a főoldalról (tableten megmarad, kapcsolat oldalon mindig) */
+  .page-home .contact-block__map{
+    display:none;
+  }
   .stats-row{
     padding:40px 0;
   }
@@ -2588,6 +2592,84 @@ section:not(.hero){
   }
 }
 
+/* ---------- TABLET (641–900): phone + desktop layout érintetlen ---------- */
+@media (min-width:641px) and (max-width:900px){
+  .testimonials-grid{
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+    gap:20px;
+  }
+  .faq-split__figure{
+    aspect-ratio:16 / 11;
+    min-height:280px;
+    max-height:420px;
+  }
+  .faq-split__figure img{
+    min-height:0;
+    max-height:420px;
+  }
+  .faq-split__card{
+    left:20px;
+    right:auto;
+    width:auto;
+    min-width:min(280px, calc(100% - 40px));
+    max-width:320px;
+  }
+  .hero__img{
+    object-position:74% 26%;
+  }
+  .hero h1{
+    font-size:clamp(2.45rem, 5.8vw, 3.15rem);
+  }
+  .hero .wrap{
+    padding:0 24px;
+    transform:translateY(2.5vh);
+  }
+  .hero-actions{
+    flex-direction:row;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:12px;
+  }
+  .hero-actions .btn{
+    width:auto;
+    flex:1 1 calc(50% - 8px);
+    min-width:220px;
+    max-width:340px;
+  }
+  .process-band__steps{
+    grid-template-columns:repeat(3, minmax(0, 1fr));
+  }
+  .process-band__step{
+    padding:0 clamp(12px, 1.6vw, 20px);
+  }
+  .process-band__step:first-child{ padding-left:0; }
+  .process-band__step:last-child{ padding-right:0; }
+  .process-band__step:not(:last-child){
+    border-right:1px solid var(--line);
+    border-bottom:none;
+    padding-top:0;
+    padding-bottom:0;
+  }
+  .contact-block__map{
+    min-height:280px;
+    margin-bottom:32px;
+  }
+}
+
+@media (min-width:641px) and (max-width:767px){
+  /* Keskenyebb tablet / nagy telefon fekvő: process egyszálas marad */
+  .process-band__steps{
+    grid-template-columns:1fr;
+  }
+  .process-band__step{
+    padding:28px 0;
+  }
+  .process-band__step:not(:last-child){
+    border-right:none;
+    border-bottom:1px solid var(--line);
+  }
+}
+
 section{
   padding:clamp(72px, 10vw, 112px) 0;
   scroll-margin-top:calc(var(--header-h) + 12px);
@@ -2683,11 +2765,19 @@ section{
   display:flex;
   flex-direction:column;
 }
-@media (max-width:900px){
+@media (max-width:640px){
   .services-featured{
     grid-template-columns:1fr;
     max-width:480px;
     margin-inline:auto;
+  }
+}
+@media (min-width:641px) and (max-width:767px){
+  .services-featured{
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+    max-width:none;
+    margin-inline:0;
+    gap:20px;
   }
 }
 
@@ -4068,10 +4158,6 @@ a.contact-block__value:hover{
     grid-template-rows:none;
     column-gap:0;
     row-gap:0;
-  }
-  /* Telefon: térkép teljesen ki a főoldalról (kapcsolat oldalon marad) */
-  .page-home .contact-block__map{
-    display:none;
   }
   .contact-block__map{
     grid-column:1;
