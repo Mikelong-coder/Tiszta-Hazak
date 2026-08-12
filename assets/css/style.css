@@ -151,6 +151,50 @@ img{
   top:0;
 }
 
+/* Mobil: Arial/fallback ★ feljebb ül a dobozban; → lejjebb a sorközépnél */
+@media (max-width:900px){
+  .intro-band__tag,
+  .stats-row__eyebrow,
+  .section-head .eyebrow,
+  .social-proof__eyebrow,
+  .page-hero__eyebrow,
+  .quote-form__eyebrow,
+  .about-meet__eyebrow,
+  .svc-cards__eyebrow,
+  .price-sheets__eyebrow,
+  .sub-intro__eyebrow,
+  .process-band__tag,
+  .why-split__tag{
+    /* Cap+baseline vágás ahol támogatott — flex a betűmagassághoz igazít */
+    text-box:trim-both cap alphabetic;
+  }
+  .intro-band__tag [aria-hidden="true"],
+  .stats-row__eyebrow [aria-hidden="true"],
+  .section-head .eyebrow [aria-hidden="true"],
+  .social-proof__eyebrow [aria-hidden="true"],
+  .page-hero__eyebrow [aria-hidden="true"],
+  .quote-form__eyebrow [aria-hidden="true"],
+  .about-meet__eyebrow [aria-hidden="true"],
+  .svc-cards__eyebrow [aria-hidden="true"],
+  .price-sheets__eyebrow [aria-hidden="true"],
+  .sub-intro__eyebrow [aria-hidden="true"],
+  .process-band__tag-star,
+  .why-split__tag-star{
+    translate:0 0.11em;
+  }
+  .service-more::after{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    font-size:1em;
+    line-height:1;
+    height:1em;
+    height:1cap;
+    /* → glifa az alapvonalhoz ül — optikai emelés */
+    translate:0 -0.14em;
+  }
+}
+
 /*
  * CSS background-image fotók: a filter a ::before-ön van,
  * a gyerek tartalom z-index-szel olvasható marad.
@@ -807,6 +851,35 @@ body.header-solid .menu-fab__bar{
   color:var(--why-taupe-deep);
   outline:none;
 }
+.menu-sheet__social{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:44px;
+  height:44px;
+  margin:14px auto 0;
+  border:1px solid var(--line);
+  border-radius:4px;
+  color:var(--ink);
+  background:transparent;
+  text-decoration:none;
+  transition:background .2s ease, color .2s ease, border-color .2s ease;
+}
+.menu-sheet__social:hover,
+.menu-sheet__social:focus-visible{
+  background:var(--ink);
+  color:var(--cream);
+  border-color:var(--ink);
+  outline:none;
+}
+.menu-sheet__social svg{
+  display:block;
+  width:20px;
+  height:20px;
+}
+.menu-sheet.is-open .menu-sheet__social{
+  animation:menu-link-in .45s cubic-bezier(.22,1,.36,1) .28s both;
+}
 .menu-sheet__actions{
   margin-top:18px;
   padding-top:16px;
@@ -855,6 +928,7 @@ body.menu-open{ overflow:hidden; }
   .menu-sheet__nav > a,
   .menu-sheet__dd-toggle,
   .menu-sheet__dd-panel a,
+  .menu-sheet__social,
   .menu-sheet__actions{
     transition:none !important;
     animation:none !important;
@@ -960,7 +1034,7 @@ main{
 .hero{
   position:relative;
   z-index:1;
-  /* --app-height = látható viewport (JS visualViewport) — F12-szerű középre igazítás */
+  /* --app-height = kezdő látható magasság (JS, görgetéskor fix) */
   min-height:100vh;
   min-height:100svh;
   min-height:var(--app-height, 100svh);
@@ -2738,7 +2812,11 @@ section{
 .service-more:hover{ color:var(--ink); text-decoration:underline; }
 .service-more::after{
   content:"→";
-  font-size:14px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1em;
+  line-height:1;
   transition:transform .2s ease;
 }
 .service-more:hover::after{ transform:translateX(3px); }
@@ -3810,17 +3888,21 @@ textarea:focus-visible{
 .contact-block{
   display:grid;
   grid-template-columns:minmax(0, 1.05fr) minmax(0, 0.95fr);
-  gap:clamp(32px, 5vw, 64px);
-  /* Térkép alja egy síkban a jobb oldali lista (Facebook) aljával */
+  grid-template-rows:auto auto;
+  column-gap:clamp(32px, 5vw, 64px);
+  row-gap:32px;
+  /* Térkép a cím+lista sorokon átnyúlik → alja = utolsó ikon alja */
   align-items:stretch;
 }
 .contact-block__map{
   position:relative;
+  grid-column:1;
+  grid-row:1 / -1;
   border-radius:6px;
   overflow:hidden;
   border:1px solid transparent;
-  min-height:280px;
-  height:100%;
+  min-height:0;
+  height:auto;
   align-self:stretch;
   /* Why-panel színvilág — nincs „törött térképkép”, szándékos helyszínkártya */
   background:linear-gradient(168deg, var(--why-taupe-light) 0%, var(--why-taupe) 42%, var(--why-taupe-deep) 100%);
@@ -3899,28 +3981,28 @@ textarea:focus-visible{
   display:none;
 }
 .contact-block__info{
-  min-width:0;
-  display:flex;
-  flex-direction:column;
-  height:100%;
+  display:contents;
 }
 .contact-block__title{
+  grid-column:2;
+  grid-row:1;
   font-size:var(--type-h2);
   font-weight:300;
   letter-spacing:-.03em;
   line-height:1.15;
   color:var(--ink);
-  margin:0 0 32px;
+  margin:0;
   max-width:14ch;
 }
 .contact-block__list{
+  grid-column:2;
+  grid-row:2;
   list-style:none;
   margin:0;
   padding:0;
   display:flex;
   flex-direction:column;
   gap:22px;
-  flex:1;
 }
 .contact-block__item{
   display:flex;
@@ -3985,18 +4067,30 @@ a.contact-block__value:hover{
   }
   .contact-block{
     grid-template-columns:1fr;
-    gap:0;
+    grid-template-rows:none;
+    column-gap:0;
+    row-gap:0;
   }
   /* Telefon: térkép teljesen ki a főoldalról (kapcsolat oldalon marad) */
   .page-home .contact-block__map{
     display:none;
   }
+  .contact-block__map{
+    grid-column:1;
+    grid-row:auto;
+    min-height:240px;
+    margin-bottom:28px;
+  }
   .contact-block__title{
+    grid-column:1;
+    grid-row:auto;
     max-width:none;
     margin-bottom:22px;
     font-size:clamp(1.45rem, 6vw, 1.85rem);
   }
   .contact-block__list{
+    grid-column:1;
+    grid-row:auto;
     gap:18px;
   }
   .contact-block__icon{
@@ -4297,6 +4391,12 @@ footer .flinks a:hover{ color:var(--ink); }
 .content-page__grid--single{
   grid-template-columns:minmax(0, 46rem);
 }
+.content-page__body{
+  min-width:0;
+  max-width:100%;
+  overflow-wrap:anywhere;
+  word-wrap:break-word;
+}
 .content-page__body h2{
   font-size:clamp(1.25rem, 2.5vw, 1.5rem);
   font-weight:400;
@@ -4315,6 +4415,9 @@ footer .flinks a:hover{ color:var(--ink); }
   line-height:1.65;
   color:var(--ink-soft);
   margin:0 0 14px;
+}
+.content-page__body a{
+  overflow-wrap:anywhere;
 }
 .content-page__figure{
   margin:0;
@@ -4343,6 +4446,7 @@ footer .flinks a:hover{ color:var(--ink); }
 .content-list--tight li{ margin-bottom:4px; }
 .content-table-wrap{
   margin:16px 0 24px;
+  max-width:100%;
   overflow-x:auto;
   -webkit-overflow-scrolling:touch;
   border:1px solid var(--line);

@@ -1,29 +1,20 @@
 # Tiszta Házak Kft. — weboldal
 
-Statikus marketingoldal (HTML / CSS / JS). Nincs build lépés: a gyökér tartalma feltölthető a tárhely `public_html` mappájába.
+Statikus marketingoldal (HTML / CSS / JS).
 
-## Struktúra
+## Éles feltöltés (MagyarHosting / cPanel)
 
-```
-/
-├── index.html              # Főoldal
-├── *.html                  # Aloldalak
-├── favicon.svg
-├── robots.txt
-├── sitemap.xml
-└── assets/
-    ├── css/                # style.css, critical.css
-    ├── js/                 # main.js
-    ├── images/             # WebP / JPG / PNG
-    └── fonts/              # Montserrat (woff2)
-```
+1. Éles csomag: `node scripts/build-production.mjs` → `dist/`
+2. A **`dist/` tartalmát** (nem a mappát magát) töltsd fel a `public_html`-be.
+3. Kész zip: `Downloads/tisztahazak-magyarhosting.zip` — cPanel → Fájlkezelő → Feltöltés → kibontás a `public_html`-be.
+4. **Ne** töltsd fel: `.git`, `scripts/`, `preview/`, `README.md`.
 
-## cPanel feltöltés
+Domain: `www.tisztahazak.hu` (canonical + sitemap erre van állítva).
 
-1. Töltsd fel a **gyökér tartalmát** a `public_html` mappába (HTML + `assets/` + `favicon.svg` + `robots.txt` + `sitemap.xml`).
-2. **Ne** töltsd fel: `.git`, `.vscode`, `.gitignore`, `README.md` (opcionális).
-3. Domain rootja legyen a `public_html` (vagy az alkönyvtár, ha subdomain).
+## Bemutató (GitHub Pages)
+
+`node scripts/build-preview.mjs` → `preview/` (noindex, nincs sitemap).
 
 ## Fejlesztés
 
-Helyi előnézet: Live Server / bármely static server a projekt gyökeréből.
+Helyi előnézet: Live Server a projekt gyökeréből.

@@ -4,8 +4,30 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>
-/* Látható magasság (visualViewport) — Messenger/Chrome sáv alatt is F12-szerű középre igazítás */
-(function(){function s(){var h=(window.visualViewport&&window.visualViewport.height)||window.innerHeight;document.documentElement.style.setProperty("--app-height",h+"px")}s();window.addEventListener("resize",s,{passive:true});if(window.visualViewport){window.visualViewport.addEventListener("resize",s,{passive:true});window.visualViewport.addEventListener("scroll",s,{passive:true})}})();
+/* --app-height: egyszer (vagy forgatáskor) mérünk.
+   Görgetéskor NEM frissítjük — Chrome/Safari címsor eltűnésekor különben a hero kép „nőne”. */
+(function () {
+  var lastW = window.innerWidth;
+  function measure() {
+    return (window.visualViewport && window.visualViewport.height) || window.innerHeight;
+  }
+  function set(h) {
+    document.documentElement.style.setProperty('--app-height', h + 'px');
+  }
+  set(measure());
+  function onResize() {
+    var w = window.innerWidth;
+    /* Mobil: csak szélességváltás / forgatás. Asztal: bármely ablakméret. */
+    if (w <= 900 && w === lastW) return;
+    lastW = w;
+    set(measure());
+  }
+  window.addEventListener('resize', onResize, { passive: true });
+  window.addEventListener('orientationchange', function () {
+    lastW = -1;
+    setTimeout(onResize, 150);
+  }, { passive: true });
+})();
 /* Makeup-minta: ne állítsa vissza a korábbi görgetési pozíciót (lazy map / LCP) */
 (function(){if(window.location.hash)return;if('scrollRestoration' in history)history.scrollRestoration='manual';window.scrollTo(0,0)})();
 </script>
@@ -34,9 +56,9 @@
   imagesrcset="assets/images/hero-640w.webp 640w, assets/images/hero-960w.webp 960w, assets/images/hero-1280w.webp 1280w, assets/images/hero.webp 1920w"
   imagesizes="100vw"
   media="(min-width: 901px)">
-<link rel="stylesheet" href="assets/css/critical.css?v=209">
-<link rel="preload" href="assets/css/style.css?v=248" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="assets/css/style.css?v=248"></noscript>
+<link rel="stylesheet" href="assets/css/critical.css?v=210">
+<link rel="preload" href="assets/css/style.css?v=249" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="assets/css/style.css?v=249"></noscript>
 <meta name="fonts-css" content="assets/css/fonts.css?v=46">
 <script>
 /* MakeUp 100-minta: mobilon fontok csak window.load után — ne versenyezzenek az LCP képpel.
@@ -136,6 +158,9 @@
       <a href="velemenyek.html">Vélemények</a>
       <a href="kapcsolat.html">Kapcsolat</a>
     </nav>
+    <a class="menu-sheet__social" href="https://www.facebook.com/profile.php?id=61592783896902" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 8h3V4h-3c-2.8 0-5 2.2-5 5v2H7v4h2v7h4v-7h3l1-4h-4V9c0-.6.4-1 1-1Z"/></svg>
+    </a>
     <div class="menu-sheet__actions">
       <a href="tel:+36703895697" class="menu-sheet__phone">+36 70 389 5697</a>
       <a href="#quote" class="btn btn-primary menu-sheet__cta">Ingyenes árajánlat</a>
@@ -648,6 +673,15 @@
           <span class="contact-block__text">
             <span class="contact-block__label">Nyitvatartás</span>
             <span class="contact-block__value">H-P 8:00-18:00 · Sz 8:00-14:00</span>
+          </span>
+        </li>
+        <li class="contact-block__item">
+          <a class="contact-block__icon contact-block__icon--link" href="https://www.facebook.com/profile.php?id=61592783896902" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 8h3V4h-3c-2.8 0-5 2.2-5 5v2H7v4h2v7h4v-7h3l1-4h-4V9c0-.6.4-1 1-1Z"/></svg>
+          </a>
+          <span class="contact-block__text">
+            <span class="contact-block__label">Facebook</span>
+            <a class="contact-block__value" href="https://www.facebook.com/profile.php?id=61592783896902" target="_blank" rel="noopener noreferrer">Kövesse oldalunkat</a>
           </span>
         </li>
       </ul>
