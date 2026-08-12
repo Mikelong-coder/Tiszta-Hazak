@@ -56,9 +56,9 @@
   imagesrcset="assets/images/hero-640w.webp 640w, assets/images/hero-960w.webp 960w, assets/images/hero-1280w.webp 1280w, assets/images/hero.webp 1920w"
   imagesizes="100vw"
   media="(min-width: 901px)">
-<link rel="stylesheet" href="assets/css/critical.css?v=218">
-<link rel="preload" href="assets/css/style.css?v=261" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="assets/css/style.css?v=261"></noscript>
+<link rel="stylesheet" href="assets/css/critical.css?v=219">
+<link rel="preload" href="assets/css/style.css?v=262" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="assets/css/style.css?v=262"></noscript>
 <meta name="fonts-css" content="assets/css/fonts.css?v=46">
 <script>
 /* MakeUp 100-minta: mobilon fontok csak window.load után — ne versenyezzenek az LCP képpel.
@@ -173,6 +173,12 @@
   <div class="hero-sentinel" aria-hidden="true"></div>
   <div class="hero__media" aria-hidden="true">
     <picture>
+      <!-- Asztali forrás előbb: >900px. Mobil art-direction külön crop — az img fallback is mobil, hogy ne ugorjon desktop→mobil. -->
+      <source
+        media="(min-width:901px)"
+        type="image/webp"
+        srcset="assets/images/hero-640w.webp 640w, assets/images/hero-960w.webp 960w, assets/images/hero-1280w.webp 1280w, assets/images/hero.webp 1920w"
+        sizes="100vw">
       <source
         media="(max-width:900px)"
         type="image/avif"
@@ -185,12 +191,10 @@
         sizes="100vw">
       <img
         class="hero__img"
-        src="assets/images/hero.webp"
-        srcset="assets/images/hero-640w.webp 640w, assets/images/hero-960w.webp 960w, assets/images/hero-1280w.webp 1280w, assets/images/hero.webp 1920w"
-        sizes="100vw"
+        src="assets/images/hero-mobile-960w-opt.webp"
         alt=""
-        width="1920"
-        height="1080"
+        width="960"
+        height="640"
         fetchpriority="high"
         decoding="async">
     </picture>
